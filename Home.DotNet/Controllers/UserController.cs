@@ -7,11 +7,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-
-    public class User
-    {
-
-    }
+    using Home.Core.Models;
 
     [Authorize]
     [Route("api/[controller]")]
