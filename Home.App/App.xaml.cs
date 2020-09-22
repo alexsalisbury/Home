@@ -26,6 +26,9 @@ namespace Home.App
     /// </summary>
     sealed partial class App : Application
     {
+        private const int height = 300;
+        private const int width = 600;
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -81,7 +84,7 @@ namespace Home.App
 
         private void ManageWindowView()
         {
-            var preferredSize = new Size(750, 50);
+            var preferredSize = new Size(width, height);
             var view = ApplicationView.GetForCurrentView();
 
             ExtendAcrylicIntoTitleBar(view.TitleBar);

@@ -119,6 +119,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Command.cs" />
+    <Compile Include="Models\CommandTemplate.cs" />
+    <Compile Include="Models\LineMessage.cs" />
+    <Compile Include="Models\LogViewModel.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
