@@ -119,6 +119,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExampleGenerator.cs" />
     <Compile Include="Models\Command.cs" />
     <Compile Include="Models\CommandTemplate.cs" />
     <Compile Include="Models\LineMessage.cs" />
