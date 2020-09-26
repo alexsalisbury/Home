@@ -25,6 +25,6 @@ namespace Home.App.Models
         public SolidColorBrush Windows = new SolidColorBrush(Colors.CadetBlue);
         public SolidColorBrush Weather = new SolidColorBrush(Colors.WhiteSmoke);
 
-        public ObservableCollection<LineMessage> Message { get; set; } = new ObservableCollection<LineMessage>();
+        public ObservableCollection<LineMessage> Messages { get; set; } = new ObservableCollection<LineMessage>();
     }
 }
