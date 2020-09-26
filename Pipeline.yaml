@@ -12,6 +12,11 @@ variables:
 steps:
 - script: |
     dotnet build Home.sln --configuration $(buildConfiguration)
+- task: NuGetCommand@2
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/Home.Core.csproj'
+    versioningScheme: 'off'
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
