@@ -1,0 +1,14 @@
+# Build ASP.NET Core project using Azure Pipelines
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core?view=vsts
+
+pool:
+  vmImage: 'vs2017-win2016'
+  
+variables:
+  buildConfiguration: 'Release'
+  buildPlatform: 'Any CPU'
+  solution: '**\*.sln'
+
+steps:
+- script: |
+    msbuild Home.UWP.sln
