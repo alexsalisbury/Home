@@ -15,8 +15,9 @@ namespace Home.Service
             SetupLogging(configuration);
 
             //Check statement for debugging use.
-            var azureSettings = configuration.GetSection("Azure").Get<AzureSettings>();
-            var botSettings = configuration.GetSection("BotSettings").Get<BotSettings>();
+            Worker.AzureSettings = configuration.GetSection("Azure").Get<AzureSettings>();
+            Worker.ShyBotSettings = configuration.GetSection("BotSettings").Get<BotSettings>();
+
             CreateHostBuilder(args).Build().Run();
         }
 
