@@ -1,17 +1,28 @@
 ﻿namespace Home.Service.Services
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Threading.Tasks;
     using Discord;
     using Discord.WebSocket;
     using Serilog;
     using Serilog.Events;
+    using Home.Core.Models.Settings;
 
     public class DiscordService
     {
         internal static DiscordSocketClient Client { get; private set; }
+
+        public static async Task StartAsync(BotSettings settings)
+        {
+            var existing = Client;
+            var discordToken = settings.DiscordToken ?? Environment.GetEnvironmentVariable("DiscordToken");
+            Client = Client ?? await CreateClient(discordToken);
+
+            if (existing != Client)
+            {
+                existing?.Dispose();
+            }
+        }
 
         internal static async Task<DiscordSocketClient> CreateClient(string discordToken, bool force = false)
         {

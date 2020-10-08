@@ -1,8 +1,6 @@
 namespace Home.Service
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Hosting;
@@ -17,7 +15,6 @@ namespace Home.Service
         /// </summary>
         public static BotSettings ShyBotSettings { get; internal set; }
         public static AzureSettings AzureSettings { get; internal set; }
-        public DiscordService DiscordService { get; internal set; }
 
         public Worker()
         {
@@ -38,12 +35,12 @@ namespace Home.Service
 
         private async Task InitializeAsync()
         {
-            DiscordService.CreateClient(ShyBotSettings.DiscordToken);
+            await DiscordService.StartAsync(ShyBotSettings);
         }
 
         private async Task StartupAsync()
         {
-            //await StartDiscordAsync();
+
         }
 
         private async Task RunStartupTasksAsync()
