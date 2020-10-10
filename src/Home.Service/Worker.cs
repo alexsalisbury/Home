@@ -45,8 +45,12 @@ namespace Home.Service
                 await Task.Delay(100);
             }
 
+            await Task.Delay(2000);
+            Log.Information("Go");
+
             DiscordManager = new DiscordService(ShyBotSettings);
 
+            Log.Information("Running tasks");
             await RunStartupTasksAsync();
         }
 
