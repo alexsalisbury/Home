@@ -9,11 +9,12 @@
     using Serilog;
     using Serilog.Events;
     using Home.Core.DiscordBot.Models.Settings;
+    using Home.Core.DiscordBot.Models;
 
     public class DiscordService
     {
         internal static DiscordSocketClient Client { get; private set; }
-        public Dictionary<string, ServerInfo> Servers { get; }
+        internal Dictionary<string, Server> Servers { get; } = new Dictionary<string, Server>();
 
         public DiscordService(BotSettings settings)
         {
@@ -22,7 +23,7 @@
 
             foreach (var s in servers)
             {
-                Servers.Add(s.Codeword, s);
+                Servers.Add(s.Codeword, new Server(s));
             }
         }
 
@@ -45,7 +46,7 @@
                 return Client;
             }
 
-            //Log.Information($"Creating a Client for {this.server.Codeword}");
+            Log.Information($"Creating a Discord client.");
             var client = new DiscordSocketClient();
             client.Log += WriteLog;
             client.MessageReceived += Client_MessageReceived;
@@ -64,21 +65,18 @@
             return Client.ConnectionState == ConnectionState.Connected;
         }
 
-        public static async Task<bool> ArchiveAsync()
+        public async Task<bool> ArchiveAsync()
         {
-            //var messages = DiscordService.GetMessages(ServerCodeword, MessageChannel);
-            //StoreMessages(messages);
+            foreach (var s in Servers.Values)
+            {
+                await s.ArchiveAsync();
+            }
+
             return true;
         }
-
-        private static void Clear()
-        {
-        }
-
         private static Task Disconnect(Exception arg)
         {
             Log.Error(arg, "Disconn");
-            Clear();
             return Task.CompletedTask;
         }
 
