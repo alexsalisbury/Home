@@ -7,9 +7,9 @@ namespace Home.Service
     using System.Threading.Tasks;
     using Microsoft.Extensions.Hosting;
     using Serilog;
-    using Home.Core.Models;
+    using Home.Core.DiscordBot.Models.Settings;
+    using Home.Core.DiscordBot.Services;
     using Home.Core.Models.Settings;
-    using Home.Service.Services;
 
     public class Worker : BackgroundService
     {
@@ -54,7 +54,7 @@ namespace Home.Service
         {
             await DiscordService.StartAsync(ShyBotSettings);
 
-            while (DiscordService.Client.ConnectionState != Discord.ConnectionState.Connected)
+            while (!DiscordService.IsConnected())
             {
                 await Task.Delay(100);
             }
@@ -62,7 +62,8 @@ namespace Home.Service
 
         private async Task RunStartupTasksAsync()
         {
-            await DiscordService.ArchiveAsync();
+            await Task.CompletedTask;
+        //    await DiscordService.ArchiveAsync();
         }
     }
 }
