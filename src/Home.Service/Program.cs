@@ -11,17 +11,18 @@ namespace Home.Service
     {
         public static async Task Main(string[] args)
         {
-            var configuration = await LoadConfig();
+            var configuration = LoadConfig();
             SetupLogging(configuration);
 
             //Check statement for debugging use.
             Worker.AzureSettings = configuration.GetSection("Azure").Get<AzureSettings>();
-            Worker.ShyBotSettings = configuration.GetSection("BotSettings").Get<BotSettings>();
+         //   Worker.ShyBotSettings = configuration.GetSection("BotSettings").Get<BotSettings>();
+            await Task.Delay(1);
 
             CreateHostBuilder(args).Build().Run();
         }
 
-        private static async Task<IConfiguration> LoadConfig()
+        private static IConfiguration LoadConfig()
         {
             // TODO: Config by Environment. Read from A: Drive?
             var builder = new ConfigurationBuilder()
