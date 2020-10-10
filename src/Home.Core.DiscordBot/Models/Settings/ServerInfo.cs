@@ -1,9 +1,11 @@
 ﻿namespace Home.Core.DiscordBot.Models.Settings
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using Newtonsoft.Json;
 
+    [DebuggerDisplay("{Codeword} (info)")]
     public class ServerInfo
     {
         public IEnumerable<ChannelSettings> Channels { get; set; }// = new List<ChannelSettings>();

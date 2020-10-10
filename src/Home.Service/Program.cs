@@ -6,6 +6,7 @@ namespace Home.Service
     using Microsoft.Extensions.Hosting;
     using Serilog;
     using Home.Core.Models.Settings;
+    using Home.Core.DiscordBot.Models.Settings;
 
     public class Program
     {
@@ -16,7 +17,7 @@ namespace Home.Service
 
             //Check statement for debugging use.
             Worker.AzureSettings = configuration.GetSection("Azure").Get<AzureSettings>();
-         //   Worker.ShyBotSettings = configuration.GetSection("BotSettings").Get<BotSettings>();
+            Worker.ShyBotSettings = configuration.GetSection("BotSettings").Get<BotSettings>();
             await Task.Delay(1);
 
             CreateHostBuilder(args).Build().Run();

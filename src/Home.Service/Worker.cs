@@ -27,27 +27,13 @@ namespace Home.Service
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await InitializeAsync();
+            await StartupAsync();
 
             while (!stoppingToken.IsCancellationRequested)
             {
                 Log.Information("Worker running at: {time}", DateTimeOffset.Now);
                 await Task.Delay(10000, stoppingToken);
             }
-        }
-
-        private async Task InitializeAsync()
-        {
-            await StartupAsync();
-
-            DiscordManager = new DiscordService(ShyBotSettings);
-
-            await RunStartupTasksAsync();
-        }
-
-        private Task LoadServersAsync(IList<ServerInfo> servers)
-        {
-            return Task.CompletedTask;
         }
 
         private async Task StartupAsync()
@@ -58,12 +44,16 @@ namespace Home.Service
             {
                 await Task.Delay(100);
             }
+
+            DiscordManager = new DiscordService(ShyBotSettings);
+
+            await RunStartupTasksAsync();
         }
 
         private async Task RunStartupTasksAsync()
         {
-            await Task.CompletedTask;
-        //    await DiscordService.ArchiveAsync();
+            //await Task.CompletedTask;
+            await DiscordManager.ArchiveAsync();
         }
     }
 }
