@@ -1,16 +1,31 @@
 ﻿namespace Home.Service.Services
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Discord;
     using Discord.WebSocket;
     using Serilog;
     using Serilog.Events;
     using Home.Core.Models.Settings;
+    using Home.Core.Models;
 
     public class DiscordService
     {
         internal static DiscordSocketClient Client { get; private set; }
+        public Dictionary<string, ServerInfo> Servers { get; }
+
+        public DiscordService(BotSettings settings)
+        {
+            var servers = settings.Servers ?? new List<ServerInfo>() { settings.MainServer };
+            Log.Information($"Loading {servers?.Count()} servers");
+
+            foreach (var s in servers)
+            {
+                Servers.Add(s.Codeword, s);
+            }
+        }
 
         public static async Task StartAsync(BotSettings settings)
         {
@@ -43,6 +58,11 @@
             await client.StartAsync();
             Client = client;
             return client;
+        }
+
+        internal static Task ArchiveAsync()
+        {
+            return Task.CompletedTask;
         }
 
         private static void Clear()
