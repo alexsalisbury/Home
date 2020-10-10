@@ -1,10 +1,13 @@
 namespace Home.Service
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Hosting;
     using Serilog;
+    using Home.Core.Models;
     using Home.Core.Models.Settings;
     using Home.Service.Services;
 
@@ -15,6 +18,8 @@ namespace Home.Service
         /// </summary>
         public static BotSettings ShyBotSettings { get; internal set; }
         public static AzureSettings AzureSettings { get; internal set; }
+        private static IList<ServerInfo> EmptyServerSet = new List<ServerInfo>(new List<ServerInfo>());
+        private DiscordService DiscordManager;
 
         public Worker()
         {
@@ -23,8 +28,6 @@ namespace Home.Service
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             await InitializeAsync();
-            await StartupAsync();
-            await RunStartupTasksAsync();
 
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -35,17 +38,31 @@ namespace Home.Service
 
         private async Task InitializeAsync()
         {
-            await DiscordService.StartAsync(ShyBotSettings);
+            await StartupAsync();
+
+            DiscordManager = new DiscordService(ShyBotSettings);
+
+            await RunStartupTasksAsync();
+        }
+
+        private Task LoadServersAsync(IList<ServerInfo> servers)
+        {
+            return Task.CompletedTask;
         }
 
         private async Task StartupAsync()
         {
+            await DiscordService.StartAsync(ShyBotSettings);
 
+            while (DiscordService.Client.ConnectionState != Discord.ConnectionState.Connected)
+            {
+                await Task.Delay(100);
+            }
         }
 
         private async Task RunStartupTasksAsync()
         {
-            //await ArchiveDiscordAsync();
+            await DiscordService.ArchiveAsync();
         }
     }
 }
