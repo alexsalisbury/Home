@@ -1,0 +1,2 @@
+Using Seq locally:
+docker run  --name seq  --hostname {name} -d  --restart unless-stopped -e ACCEPT_EULA=Y -v /path/to/seq/data:/data/Seq -p 80:80 -p 5341:5341 datalust/seq:latest
