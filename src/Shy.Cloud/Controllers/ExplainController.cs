@@ -5,24 +5,25 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Serilog;
-    using Shy.Core.Repositories;
+    using Home.Core.DiscordBot.Repositories;
+    using Home.Core.DiscordBot.Interfaces.Repositories;
 
     //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class ExplainController : ControllerBase
     {
-        //IExplainRepository repo;
-        public ExplainController()//IExplainRepository executionRepository)
+        private IExplainRepository repo;
+        public ExplainController(IExplainRepository executionRepository)
         {
-            //this.repo = executionRepository;
+            this.repo = executionRepository;
         }
 
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Get()
         {
-            var value = await ExplainRepository.Fetch();
+            var value = await repo.Fetch();
             Log.Information($"Getting {value.Count()} Explains.");
             return new JsonResult(value);
         }

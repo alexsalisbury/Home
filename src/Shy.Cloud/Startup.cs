@@ -15,6 +15,8 @@ namespace Shy.Cloud
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using Serilog;
+    using Home.Core.DiscordBot.Interfaces.Repositories;
+    using Home.Core.DiscordBot.Repositories;
 
     public class Startup
     {
@@ -42,7 +44,8 @@ namespace Shy.Cloud
 
             Startup.connStr = Configuration.GetConnectionString("Cloud");
             //services.AddTransient<IChannelRepository>(f => new ChannelRepository(connStr));
-            //services.AddTransient<IExplainRepository>(f => new ExplainRepository());
+
+            services.AddTransient<IExplainRepository>(f => new ExplainRepository());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
