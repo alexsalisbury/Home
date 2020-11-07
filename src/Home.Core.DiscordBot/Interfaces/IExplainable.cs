@@ -1,8 +1,6 @@
-﻿namespace Home.Core.DiscordBot.Models.Dtos
+﻿namespace Home.Core.DiscordBot.Interfaces
 {
-    using Home.Core.DiscordBot.Interfaces;
-
-    public class ExplainableDto : IExplainable
+    public interface IExplainable
     {
         public int Id { get; set; }
         public string Subject { get; set; }

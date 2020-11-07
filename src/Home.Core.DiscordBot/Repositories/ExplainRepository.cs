@@ -1,16 +1,18 @@
-﻿namespace Shy.Core.Repositories
+﻿namespace Home.Core.DiscordBot.Repositories
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Shy.Core.Models.Dtos;
+    using Home.Core.DiscordBot.Interfaces;
+    using Home.Core.DiscordBot.Interfaces.Repositories;
+    using Home.Core.DiscordBot.Models.Dtos;
 
     /// <summary>
     /// A Repository for explanations of commands and stuff.
     /// </summary>
-    public class ExplainRepository
+    public class ExplainRepository : IExplainRepository
     {
-        public static IList<ExplainableDto> Commands = new List<ExplainableDto>();
+        public static IList<IExplainable> Commands = new List<IExplainable>();
 
         static ExplainRepository()
         {
@@ -53,24 +55,19 @@
             }
         }
 
-        public static Task<IQueryable<ExplainableDto>> Fetch()
+        public Task<IQueryable<IExplainable>> Fetch()
         {
             return Task.FromResult(Commands.AsQueryable());
         }
 
-    //    public Task<IQueryable<ExplainableDto>> Fetch()
-    //    {
-    //        return Task.FromResult(Commands.AsQueryable());
-    //    }
+        public Task<IExplainable> Fetch(int id)
+        {
+            return Task.FromResult(Commands.FirstOrDefault(c => c.Id == id));
+        }
 
-    //    public Task<ExplainableDto> Fetch(int id)
-    //    {
-    //        return Task.FromResult(Commands.FirstOrDefault(c => c.Id == id));
-    //    }
-
-    //    public Task<ExplainableDto> Fetch(ulong id)
-    //    {
-    //        return Task.FromResult(Commands.FirstOrDefault(c => c.Id == (int)id));
-    //    }
+        public Task<IExplainable> Fetch(ulong id)
+        {
+            return Task.FromResult(Commands.FirstOrDefault(c => c.Id == (int)id));
+        }
     }
 }
