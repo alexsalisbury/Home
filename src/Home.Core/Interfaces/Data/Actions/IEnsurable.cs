@@ -11,7 +11,7 @@
         /// <summary>
         /// Ensure a single record exists.
         /// </summary>
-        /// <param name="id">the id to delete</param>
+        /// <param name="id">the record to match or write.</param>
         /// <returns>true if found or created.</returns>
         Task<bool> EnsureAsync(T record);
     }
