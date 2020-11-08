@@ -6,9 +6,15 @@
     using Home.Core.DiscordBot.Interfaces.Models;
     using Home.Core.DiscordBot.Interfaces.Repositories;
     using Home.Core.DiscordBot.Models.Dtos;
+    using Home.Core.Repositories;
 
-    public class ChannelRepository : IChannelRepository
+    public class ChannelRepository : BaseRepository, IChannelRepository
     {
+        public ChannelRepository(string connstr) : base(connstr)
+        {
+
+        }
+
         public Task<bool> EnsureAsync(IChannelInfo record)
         {
             return Task.FromResult(false);
