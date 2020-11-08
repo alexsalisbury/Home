@@ -46,6 +46,7 @@ namespace Shy.Cloud
 
             services.AddTransient<IChannelRepository>(f => new ChannelRepository(connStr));
             services.AddTransient<IExplainRepository>(f => new ExplainRepository());
+            services.AddTransient<IMessageRepository>(f => new MessageRepository(connStr));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
