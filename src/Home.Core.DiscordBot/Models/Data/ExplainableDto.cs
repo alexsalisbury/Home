@@ -1,6 +1,6 @@
 ﻿namespace Home.Core.DiscordBot.Models.Dtos
 {
-    using Home.Core.DiscordBot.Interfaces;
+    using Home.Core.DiscordBot.Interfaces.Models;
 
     public class ExplainableDto : IExplainable
     {

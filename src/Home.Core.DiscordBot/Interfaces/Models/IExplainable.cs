@@ -1,4 +1,4 @@
-﻿namespace Home.Core.DiscordBot.Interfaces
+﻿namespace Home.Core.DiscordBot.Interfaces.Models
 {
     public interface IExplainable
     {
