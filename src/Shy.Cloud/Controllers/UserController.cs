@@ -11,10 +11,10 @@
     //[Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class ChannelController : ControllerBase
+    public class UserController : ControllerBase
     {
-        private IChannelRepository repo;
-        public ChannelController(IChannelRepository executionRepository)
+        private IUserRepository repo;
+        public UserController(IUserRepository executionRepository)
         {
             this.repo = executionRepository;
         }
@@ -24,7 +24,7 @@
         public async Task<IActionResult> Get()
         {
             var value = await repo.Fetch();
-            Log.Information("Getting {value} Channels.", value.Count());
+            Log.Information("Getting {value} Users.", value.Count());
             return new JsonResult(value);
         }
 
@@ -34,15 +34,15 @@
         {
             var value = await repo.Fetch(id);
             var findstatus = value == null ? "unfound" : "found";
-            Log.Information("Getting {findstatus} Channel {channelId}.", findstatus, id);
+            Log.Information("Getting {findstatus} User {UserId}.", findstatus, id);
             return new JsonResult(value);
         }
 
         // [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Post(IChannelInfo channel)
+        public async Task<IActionResult> Post(IUserInfo User)
         {
-            var value = await repo.EnsureAsync(channel);
+            var value = await repo.EnsureAsync(User);
             if (value)
             {
                 return Ok();
