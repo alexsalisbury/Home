@@ -22,7 +22,7 @@
 
         public Task<IQueryable<IChannelInfo>> Fetch()
         {
-            var result = new List<ChannelDto>();
+            var result = new List<ChannelInfoDto>();
             return Task.FromResult(result.AsQueryable<IChannelInfo>());
         }
 
