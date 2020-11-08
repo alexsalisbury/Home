@@ -2,7 +2,7 @@
 {
     using Home.Core.DiscordBot.Interfaces.Models;
 
-    public class ChannelDto: IChannelInfo
+    public class ChannelInfoDto: IChannelInfo
     {
 
     }
