@@ -5,7 +5,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Serilog;
-    using Home.Core.DiscordBot.Repositories;
     using Home.Core.DiscordBot.Interfaces.Repositories;
 
     //[Authorize]

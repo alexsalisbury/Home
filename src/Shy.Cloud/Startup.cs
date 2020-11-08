@@ -43,8 +43,8 @@ namespace Shy.Cloud
             //});
 
             Startup.connStr = Configuration.GetConnectionString("Cloud");
-            //services.AddTransient<IChannelRepository>(f => new ChannelRepository(connStr));
 
+            services.AddTransient<IChannelRepository>(f => new ChannelRepository(connStr));
             services.AddTransient<IExplainRepository>(f => new ExplainRepository());
         }
 
