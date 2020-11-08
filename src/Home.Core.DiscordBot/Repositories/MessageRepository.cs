@@ -1,9 +1,9 @@
 ﻿namespace Home.Core.DiscordBot.Repositories
 {
+    using System.Threading.Tasks;
+    using Home.Core.Repositories;
     using Home.Core.DiscordBot.Interfaces.Models;
     using Home.Core.DiscordBot.Interfaces.Repositories;
-    using Home.Core.Repositories;
-    using System.Threading.Tasks;
 
     public class MessageRepository : BaseRepository, IMessageRepository
     {
