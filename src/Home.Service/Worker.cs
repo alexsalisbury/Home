@@ -31,7 +31,7 @@ namespace Home.Service
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                Log.Information("Worker running at: {time}", DateTimeOffset.Now);
+                Log.Information("Worker running at: {utc} -> {time}", DateTimeOffset.UtcNow, DateTimeOffset.Now);
                 await Task.Delay(10000, stoppingToken);
             }
         }
@@ -48,7 +48,7 @@ namespace Home.Service
             await Task.Delay(2000);
             Log.Information("Go");
 
-            DiscordManager = new DiscordService(ShyBotSettings);
+            DiscordManager = DiscordService.Service;
 
             Log.Information("Running tasks");
             await RunStartupTasksAsync();
@@ -56,8 +56,8 @@ namespace Home.Service
 
         private async Task RunStartupTasksAsync()
         {
-            //await Task.CompletedTask;
-            await DiscordManager.ArchiveAsync();
+            await Task.CompletedTask;
+           // await DiscordManager.ArchiveAsync();
         }
     }
 }

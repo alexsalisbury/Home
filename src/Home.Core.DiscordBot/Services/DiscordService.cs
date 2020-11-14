@@ -13,13 +13,16 @@
 
     public class DiscordService
     {
+        private static BotSettings Settings;
+        public static DiscordService Service { get; private set; }
         internal static DiscordSocketClient Client { get; private set; }
         internal Dictionary<string, Server> Servers { get; } = new Dictionary<string, Server>();
+        internal Dictionary<ulong, string> ServerLookup { get; } = new Dictionary<ulong, string>();
 
-        public DiscordService(BotSettings settings)
+        private DiscordService(BotSettings settings)
         {
             var servers = settings.Servers ?? new List<ServerInfo>() { settings.MainServer };
-            Log.Information($"Loading {servers?.Count()} servers");
+            Log.Information("Loading {serverCount} servers", servers?.Count());
 
             foreach (var s in servers)
             {
@@ -29,6 +32,8 @@
 
         public static async Task StartAsync(BotSettings settings)
         {
+            Settings = settings;
+            Service = new DiscordService(settings);
             var existing = Client;
             var discordToken = settings.DiscordToken ?? Environment.GetEnvironmentVariable("DiscordToken");
             Client = Client ?? await CreateClient(discordToken);
@@ -80,24 +85,60 @@
             return Task.CompletedTask;
         }
 
-        private static Task Client_MessageReceived(SocketMessage arg)
+        private static async Task Client_MessageReceived(SocketMessage arg)
+        {
+            await Service.HandleMessage(arg);
+        }
+
+        private async Task HandleMessage(SocketMessage arg)
         {
             try
             {
                 // If the message was not in the cache, downloading it will result in getting a copy of `after`.
-                var message = arg;
-                var channel = (SocketTextChannel)message.Channel;
+                var msg = arg;
+                var channel = (SocketTextChannel)msg.Channel;
+                var usertype = msg.Author.IsBot ? "Bot" : "User";
+                Log.Information("{usertype} {username} message {content} created at {createdAt}", usertype, msg.Author.Username, msg.Content, msg.CreatedAt.UtcDateTime);
 
-                var usertype = message.Author.IsBot ? "Bot" : "User";
-                Log.Information($"{usertype} {message.Author.Username} message {message.Content} created at {message.CreatedAt.UtcDateTime}");
+                if (msg.Source == MessageSource.User)
+                {
+                    var server = GetServer(channel.Guild.Id);
+                    if (server == null)
+                    {
+                        Log.Error("Message from unknown server.");
+                        return;
+                    }
 
-                return Task.CompletedTask;
+                   //var user = server?.ServerUsers?.GetOrAdd(message.Author.Id, GenerateUser(message));
+                    var discordChannel = server.GetChannel(channel.Name, true);
+
+                    //TODO: await TryWake();
+                    //user?.HandleMessage(message, discordChannel, Settings);
+                }
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Failed to handle message.");
-                return Task.CompletedTask;
             }
+        }
+
+        private Server GetServer(ulong serverId)
+        {
+            if (!ServerLookup.ContainsKey(serverId))
+            {
+                var codeword = Servers.Values.First(s => s.ServerId == serverId)?.Codeword;
+                if (string.IsNullOrWhiteSpace(codeword))
+                {
+                    Log.Warning("Unknown serverid {serverId}", serverId);
+                }
+                else
+                {
+                    ServerLookup.Add(serverId, codeword);
+                }
+            }
+
+            var cw = ServerLookup[serverId];
+            return Servers[cw];
         }
 
         private static Task WriteLog(LogMessage message)
