@@ -32,6 +32,7 @@
         public static Dictionary<ulong, Server> Guilds { get; private set; } = new Dictionary<ulong, Server>();
 
         private SocketGuild guild;
+        private IEnumerable<ChannelSettings> channelSettings;
 
         /// <summary>
         /// Constructs a Server mock.
@@ -42,11 +43,10 @@
             this.ServerId = server.ServerId;
             this.Codeword = server.Codeword;
             //this.Client = client;
-
-            Initialize(server);
+            channelSettings = server.Channels;
         }
 
-        private void Initialize(ServerInfo server)
+        public void Initialize()
         {
             this.GetGuild();
 
@@ -57,7 +57,7 @@
                 GetChannel(c.Name, true);
             }
 
-            foreach (var c in server.Channels)
+            foreach (var c in channelSettings)
             {
                 GetChannel(c.Name, true);
             }
