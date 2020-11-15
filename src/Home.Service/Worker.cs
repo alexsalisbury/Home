@@ -28,10 +28,18 @@ namespace Home.Service
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             await StartupAsync();
+            await Task.Delay(1000 * (10 - (DateTime.UtcNow.Second%10)));
+            Log.Information("Worker running at: {time}", DateTimeOffset.UtcNow);
 
+            int c = DateTime.UtcNow.Minute / 10;
             while (!stoppingToken.IsCancellationRequested)
             {
-                Log.Information("Worker running at: {utc} -> {time}", DateTimeOffset.UtcNow, DateTimeOffset.Now);
+                c = (c + 1) % 6;
+                if (c == 0)
+                {
+                    Log.Information("Worker running at: {time}", DateTimeOffset.UtcNow);
+                }
+
                 await Task.Delay(10000, stoppingToken);
             }
         }

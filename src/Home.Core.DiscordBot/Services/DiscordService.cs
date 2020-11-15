@@ -42,6 +42,17 @@
             {
                 existing?.Dispose();
             }
+
+            await Task.Delay(2000);
+            await Service.StartAsync();
+        }
+
+        internal async Task StartAsync()
+        {
+            foreach (var s in Servers.Values)
+            {
+                s?.Initialize();
+            }
         }
 
         internal static async Task<DiscordSocketClient> CreateClient(string discordToken, bool force = false)

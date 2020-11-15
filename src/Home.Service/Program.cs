@@ -1,5 +1,6 @@
 namespace Home.Service
 {
+    using System;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -40,7 +41,7 @@ namespace Home.Service
                 .CreateLogger();
 
             //TODO: Log relevant settings on startup.
-            Log.Information("Online.");
+            Log.Information("Home.Service on {host} is online.", Environment.MachineName);
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
