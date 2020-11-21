@@ -26,11 +26,6 @@
             return Task.FromResult(result.AsQueryable<IUserInfo>());
         }
 
-        public Task<IUserInfo> Fetch(int id)
-        {
-            return null;
-        }
-
         public Task<IUserInfo> Fetch(ulong id)
         {
             return null;

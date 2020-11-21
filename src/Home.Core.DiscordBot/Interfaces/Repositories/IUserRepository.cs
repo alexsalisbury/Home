@@ -3,7 +3,7 @@
     using Home.Core.Interfaces.Data.Actions;
     using Home.Core.DiscordBot.Interfaces.Models;
 
-    public interface IUserRepository : IFetchable<IUserInfo>, IEnsurable<IUserInfo>
+    public interface IUserRepository : IFetchable<IUserInfo, ulong>, IEnsurable<IUserInfo>
     {
 
     }
