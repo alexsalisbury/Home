@@ -1,13 +1,16 @@
 ﻿namespace Home.Core.Commands
 {
+    using System;
     using System.Threading.Tasks;
 
-    public abstract class HomeCommand
+    public abstract record HomeCommand
     {
+        public Guid Identifier { get; init; }
+
         /// <summary>
         /// The command this represents. 
         /// </summary>
-        public string Command { get; private set; }
+        public string Command { get; init; }
 
         public HomeCommand(string command)
         {
