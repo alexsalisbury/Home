@@ -26,17 +26,12 @@
             return Task.FromResult(result.AsQueryable<IChannelInfo>());
         }
 
-        public Task<IChannelInfo> Fetch(int id)
-        {
-            return null;
-        }
-
         public Task<IChannelInfo> Fetch(ulong id)
         {
             return null;
         }
 
-        public Task<IChannelInfo> Patch(int id, IChannelInfo patch)
+        public Task<IChannelInfo> Patch(ulong id, IChannelInfo patch)
         {
             return null;
         }

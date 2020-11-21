@@ -7,7 +7,7 @@
     /// Repo for IExplainables
     /// </summary>
     /// <remarks>Use of ExplainableDto is recommended</remarks>
-    public interface IExplainRepository : IFetchable<IExplainable>
+    public interface IExplainRepository : IFetchable<IExplainable, ulong>
     {
     }
 }
