@@ -13,6 +13,7 @@
         /// </summary>
         /// <param name="id">the id to delete</param>
         /// <returns>The deleted object?</returns>
-        Task<T> Delete(int id);
+        Task Delete(T id);
+        //        Task<T> Delete(ulong id);
     }
 }

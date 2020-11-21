@@ -7,7 +7,7 @@
     /// Represents a store that can fetch a specific (or all) record(s).
     /// </summary>
     /// <typeparam name="T">The Type of record</typeparam>
-    public interface IFetchable<T>
+    public interface IFetchable<T, U>
     {
         /// <summary>
         /// Fetches all records of this type
@@ -20,13 +20,6 @@
         /// </summary>
         /// <param name="id">the id of the record</param>
         /// <returns>record if found</returns>
-        Task<T> Fetch(int id);
-
-        /// <summary>
-        /// Fetches a single record by id
-        /// </summary>
-        /// <param name="id">the id of the record</param>
-        /// <returns>record if found</returns>
-        Task<T> Fetch(ulong id);
+        Task<T> Fetch(U id);
     }
 }
