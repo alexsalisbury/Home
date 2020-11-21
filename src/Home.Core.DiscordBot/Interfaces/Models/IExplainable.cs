@@ -2,8 +2,8 @@
 {
     public interface IExplainable
     {
-        public int Id { get; set; }
-        public string Subject { get; set; }
-        public string Explanation { get; set; }
+        int ShyId { get; }
+        string Subject { get; }
+        string Explanation { get; }
     }
 }
