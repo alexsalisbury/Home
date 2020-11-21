@@ -1,9 +1,9 @@
 ﻿namespace Home.Core.DiscordBot.Models.Settings
 {
-    public class GoldfishSettings
+    public record GoldfishSettings
     {
-        public uint Cadence { get; set; }
-        public bool Silent { get; set; }
-        public string Strategy { get; set; }
+        public uint Cadence { get; init; }
+        public bool Silent { get; init; }
+        public string Strategy { get; init; }
     }
 }

@@ -5,17 +5,17 @@
     /// <summary>
     /// The settings for a channel
     /// </summary>
-    public class ChannelSettings
+    public record ChannelSettings
     {
         /// <summary>
         /// The name of the channel.
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; init; }
 
         /// <summary>
         /// The Goldfish settings, if any
         /// </summary>
-        public GoldfishSettings Fish { get; set; }
+        public GoldfishSettings Fish { get; init; }
 
         /// <summary>
         /// Default json ctor.

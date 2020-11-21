@@ -3,18 +3,18 @@
     using System;
     using Home.Core.DiscordBot.Interfaces.Models;
 
-    public class ChannelInfoDto : IChannelInfo
+    public record ChannelInfoDto : IChannelInfo
     {
-        public ulong? CategoryId { get; }
+        public ulong? CategoryId { get; init; }
 
-        public ulong? GuildId { get; }
+        public ulong? GuildId { get; init; }
 
-        public bool IsNsfw { get; }
+        public bool IsNsfw { get; init; }
 
-        public int Position { get; }
+        public int Position { get; init; }
 
-        public DateTimeOffset CreatedAt { get; }
+        public DateTimeOffset CreatedAt { get; init; }
 
-        public ulong Id { get; }
+        public ulong Id { get; init; }
     }
 }

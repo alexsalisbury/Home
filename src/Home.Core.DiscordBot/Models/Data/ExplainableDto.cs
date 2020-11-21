@@ -2,10 +2,10 @@
 {
     using Home.Core.DiscordBot.Interfaces.Models;
 
-    public class ExplainableDto : IExplainable
+    public record ExplainableDto : IExplainable
     {
-        public int Id { get; set; }
-        public string Subject { get; set; }
-        public string Explanation { get; set; }
+        public int ShyId { get; init; }
+        public string Subject { get; init; }
+        public string Explanation { get; init; }
     }
 }
