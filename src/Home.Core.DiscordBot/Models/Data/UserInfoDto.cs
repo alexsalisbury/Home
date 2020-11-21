@@ -3,20 +3,24 @@
     using System;
     using Home.Core.DiscordBot.Interfaces.Models;
 
-    public class UserInfoDto : IUserInfo
+    public record UserInfoDto : IUserInfo
     {
-        public string Username { get; }
+        public int ShyId { get; init; }
 
-        public ushort DiscriminatorValue { get; }
+        public ulong Id { get; init; }
 
-        public bool IsBot { get; }
+        public string Username { get; init; }
 
-        public bool IsWebhook { get; }
+        public string DiscriminatorValue { get; init; }
 
-        public string AvatarId { get; }
+        public bool IsBot { get; init; }
 
-        public DateTimeOffset CreatedAt { get; }
+        public bool IsExcluded { get; init; }
 
-        public ulong Id { get; }
+        public bool IsWebhook { get; init; }
+
+        public string AvatarId { get; init; }
+
+        public DateTimeOffset CreatedAt { get; init; }
     }
 }

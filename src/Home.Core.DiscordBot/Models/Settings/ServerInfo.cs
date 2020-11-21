@@ -6,12 +6,12 @@
     using Newtonsoft.Json;
 
     [DebuggerDisplay("{Codeword} (info)")]
-    public class ServerInfo
+    public record ServerInfo
     {
-        public IEnumerable<ChannelSettings> Channels { get; set; }// = new List<ChannelSettings>();
-        public string Codeword { get; set; }
-        public string DiscordToken { get; set; }
-        public ulong ServerId { get; set; }
+        public IEnumerable<ChannelSettings> Channels { get; init; }// = new List<ChannelSettings>();
+        public string Codeword { get; init; }
+        public string DiscordToken { get; init; }
+        public ulong ServerId { get; init; }
 
         public ServerInfo() { }
 

@@ -4,28 +4,28 @@
     using System.Diagnostics;
 
     [DebuggerDisplay("Settings")]
-    public class BotSettings
+    public record BotSettings
     {
-        public ServerInfo MainServer { get; set; }
+        public ServerInfo MainServer { get; init; }
 
-        public IList<ServerInfo> Servers { get; set; } //= new List<ServerInfo>();
+        public IList<ServerInfo> Servers { get; init; } //= new List<ServerInfo>();
 
-        public string ArchiveFolder { get; set; }
-
-        [DebuggerDisplay("SECRET")]
-        public ulong BotId { get; set; }
-
-        public string DemocracyChannelName { get; set; }
+        public string ArchiveFolder { get; init; }
 
         [DebuggerDisplay("SECRET")]
-        public string DiscordToken { get; set; }
+        public ulong BotId { get; init; }
 
-        public string GoldfishChannelName { get; set; }
+        public string DemocracyChannelName { get; init; }
 
         [DebuggerDisplay("SECRET")]
-        public string HomeServer { get; set; }
+        public string DiscordToken { get; init; }
 
-        public string TestSpaceChannelName { get; set; }
+        public string GoldfishChannelName { get; init; }
+
+        [DebuggerDisplay("SECRET")]
+        public string HomeServer { get; init; }
+
+        public string TestSpaceChannelName { get; init; }
 
         public ulong GetHomeServerID()
         {

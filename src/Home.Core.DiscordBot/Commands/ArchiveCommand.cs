@@ -7,7 +7,7 @@
     using Home.Core.DiscordBot.Models;
     using Serilog;
 
-    internal class ArchiveCommand : HomeCommand
+    internal record ArchiveCommand : HomeCommand
     {
         public string ServerCodeword { get; }
         
