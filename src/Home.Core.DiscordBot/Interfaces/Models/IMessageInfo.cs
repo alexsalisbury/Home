@@ -4,6 +4,7 @@
 
     public interface IMessageInfo : ISnowflakeEntity
     {
+        int ShyId { get; }
         ulong AuthorId { get; }
         ulong ChannelId { get; }
         ulong? GuildId { get; }

@@ -4,8 +4,9 @@
 
     public interface IUserInfo : ISnowflakeEntity
     {
+        int ShyId { get; }
         string Username { get; }
-        ushort DiscriminatorValue { get; }
+        string DiscriminatorValue { get; }
         bool IsBot { get; }
         bool IsWebhook { get; }
         string AvatarId { get; }
