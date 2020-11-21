@@ -1,6 +1,6 @@
 ﻿namespace Home.Core.Models.Settings
 {
-    public class AzureSettings
+    public record AzureSettings
     {
         public string ShyCloudEndpoint { get; set; }
         public string ClientId { get; set; }
