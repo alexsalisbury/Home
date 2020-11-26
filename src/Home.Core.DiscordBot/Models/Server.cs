@@ -9,6 +9,7 @@
     using System.Threading.Tasks;
     using Discord;
     using Discord.WebSocket;
+    using Home.Core.Commands;
     using Home.Core.DiscordBot.Commands;
     using Home.Core.DiscordBot.Models.Settings;
     using Home.Core.DiscordBot.Services;
@@ -109,10 +110,13 @@
             return this.guild;
         }
 
-        internal async Task<bool> ArchiveAsync()
+        internal async Task<bool> StartArchiveAsync()
         {
             var archiveCommand = new ArchiveCommand(this.Codeword);
-            return await archiveCommand.ExecuteCommandAsync();
+            //Enqueue(archiveCommand);
+            //var stage = archiveCommand.GetNextStage(); //Still in planning. Not sure about this.
+            var result =  await archiveCommand.ExecuteCommandStageAsync();
+            return true;
         }
 
         /// <summary>

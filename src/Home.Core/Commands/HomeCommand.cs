@@ -6,6 +6,7 @@
     public abstract record HomeCommand
     {
         public Guid Identifier { get; init; }
+        public int Stage { get; init; }
 
         /// <summary>
         /// The command this represents. 
@@ -17,6 +18,6 @@
             this.Command = command;
         }
 
-        public abstract Task<bool> ExecuteCommandAsync();
+        public abstract Task<StageExecutionResult> ExecuteCommandStageAsync();
     }
 }
