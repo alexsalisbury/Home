@@ -69,7 +69,7 @@
             client.Disconnected += Disconnect;
 
             // Remember to keep token private or to read it from an external source! 
-            // In this case, we are reading the token usersecrets or from an environment variable. 
+            // In this case, we are reading the token from usersecrets or an environment variable. 
             await client.LoginAsync(TokenType.Bot, discordToken);
             await client.StartAsync();
             Client = client;
@@ -81,14 +81,16 @@
             return Client.ConnectionState == ConnectionState.Connected;
         }
 
-        public async Task<bool> ArchiveAsync()
+        public async Task<bool> StartArchiveAsync()
         {
+            var result = true;
             foreach (var s in Servers.Values)
             {
-                await s.ArchiveAsync();
+                // This stops if we fail somewhere.
+                result = result && await s.StartArchiveAsync();
             }
 
-            return true;
+            return result;
         }
         private static Task Disconnect(Exception arg)
         {

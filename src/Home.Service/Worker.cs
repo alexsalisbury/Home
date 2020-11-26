@@ -59,13 +59,18 @@ namespace Home.Service
             DiscordManager = DiscordService.Service;
 
             Log.Information("Running tasks");
-            await RunStartupTasksAsync();
+            await QueueStartupTasksAsync();
         }
 
-        private async Task RunStartupTasksAsync()
+        private async Task QueueStartupTasksAsync()
+        {
+            await DiscordManager.StartArchiveAsync();
+        }
+
+        private async Task QueueWaitingTasksAsync()
         {
             await Task.CompletedTask;
-           // await DiscordManager.ArchiveAsync();
+            // await DiscordManager.ArchiveAsync();
         }
     }
 }
