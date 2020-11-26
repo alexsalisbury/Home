@@ -7,6 +7,10 @@
     {
         public int ShyId { get; init; }
 
+        public int ServerShyId { get; init; }
+
+        public int ChannelShyId { get; init; }
+
         public ulong Id { get; init; }
 
         public ulong AuthorId { get; init; }

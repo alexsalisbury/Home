@@ -1,10 +1,10 @@
 ﻿namespace Home.Core.DiscordBot.Interfaces.Models
 {
     using Discord;
+    using Home.Core.Interfaces.Models;
 
-    public interface IMessageInfo : ISnowflakeEntity
+    public interface IMessageInfo : IShyEntity, ISnowflakeEntity
     {
-        int ShyId { get; }
         ulong AuthorId { get; }
         ulong ChannelId { get; }
         ulong? GuildId { get; }

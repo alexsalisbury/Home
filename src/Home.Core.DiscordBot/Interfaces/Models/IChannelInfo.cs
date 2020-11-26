@@ -1,6 +1,7 @@
 ﻿namespace Home.Core.DiscordBot.Interfaces.Models
 {
     using Discord;
+    using Home.Core.Interfaces.Models;
 
     public enum ChannelType
     {
@@ -13,7 +14,7 @@
         GuildStore
     }
 
-    public interface IChannelInfo : ISnowflakeEntity
+    public interface IChannelInfo : IShyEntity, ISnowflakeEntity
     {
         ulong? CategoryId { get; }
         ulong? GuildId { get; }

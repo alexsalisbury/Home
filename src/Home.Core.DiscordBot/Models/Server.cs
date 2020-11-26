@@ -7,7 +7,9 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Discord;
     using Discord.WebSocket;
+    using Home.Core.DiscordBot.Commands;
     using Home.Core.DiscordBot.Models.Settings;
     using Home.Core.DiscordBot.Services;
     using Serilog;
@@ -18,6 +20,7 @@
     [DebuggerDisplay("{Codeword}")]
     public class Server
     {
+        public ConcurrentDictionary<ulong, string> MessageHashCache = new ConcurrentDictionary<ulong, string>();
         /// <summary>
         /// The Channels on this server.
         /// </summary>
@@ -29,7 +32,7 @@
         /// The Server ID of this server.
         /// </summary>
         public ulong ServerId { get; set; }
-        public static Dictionary<ulong, Server> Guilds { get; private set; } = new Dictionary<ulong, Server>();
+        public static Dictionary<string, Server> Guilds { get; private set; } = new Dictionary<string, Server>();
 
         private SocketGuild guild;
         private IEnumerable<ChannelSettings> channelSettings;
@@ -40,10 +43,16 @@
         /// <param name="settings">The settings of this server.</param>
         public Server(ServerInfo server) //, IShyCloudClient client)
         {
+            if (Guilds.ContainsKey(server.Codeword))
+            {
+                Log.Warning("Duplicate codeword {serverCodeword} found.", server.Codeword);
+            }
+
             this.ServerId = server.ServerId;
             this.Codeword = server.Codeword;
             //this.Client = client;
             channelSettings = server.Channels;
+            Guilds[server.Codeword] = this;
         }
 
         public void Initialize()
@@ -63,18 +72,29 @@
             }
         }
 
-        public async Task ArchiveAsync()
+        public async IAsyncEnumerable<IMessage> CaptureMessagesAsync()
         {
             var channels = this.guild.TextChannels;
             foreach (var current in channels)
             {
-                var messages = current.GetMessagesAsync(1000);
-                await foreach (var mset in messages)
+                Log.Information("Crawling messages for {channelCategoryName} {channelName}", current?.Category?.Name ?? "", current?.Name ?? "");
+                var itemshandled = 0;
+                var setshandled = 0;
+
+                var messageCollection = current.GetMessagesAsync(1000);
+                await foreach (var messageSet in messageCollection)
                 {
-                    foreach (var m in mset)
+                    setshandled += 1;
+                    foreach (var msg in messageSet)
                     {
-                        Debug.WriteLine(m.Content);
+                        itemshandled += 1;
+                        yield return msg;
                     }
+                }
+
+                if (itemshandled > 0)
+                {
+                    Log.Information("Channel {channelCategoryName}:{channelName} has {itemshandled} messages in {setshandled} sets.", current?.Category?.Name ?? "", current?.Name ?? "", itemshandled, setshandled);
                 }
             }
         }
@@ -87,6 +107,12 @@
             }
 
             return this.guild;
+        }
+
+        internal async Task<bool> ArchiveAsync()
+        {
+            var archiveCommand = new ArchiveCommand(this.Codeword);
+            return await archiveCommand.ExecuteCommandAsync();
         }
 
         /// <summary>
