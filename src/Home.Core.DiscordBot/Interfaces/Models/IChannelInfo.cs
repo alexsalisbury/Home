@@ -18,6 +18,7 @@
     {
         ulong? CategoryId { get; }
         ulong? GuildId { get; }
+        string Name { get; set; }
         bool IsNsfw { get; }
         int Position { get; }
 
