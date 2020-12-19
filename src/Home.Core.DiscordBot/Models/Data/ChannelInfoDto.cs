@@ -15,6 +15,8 @@
 
         public ulong? GuildId { get; init; }
 
+        public string Name { get; set; }
+
         public bool IsNsfw { get; init; }
 
         public bool IsShyRpgChannel { get; init; }
