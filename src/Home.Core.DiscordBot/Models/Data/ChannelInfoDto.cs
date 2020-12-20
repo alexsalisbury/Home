@@ -15,7 +15,9 @@
 
         public ulong? GuildId { get; init; }
 
-        public string Name { get; set; }
+        public string Codeword { get; init; }
+
+        public string Name { get; init; }
 
         public bool IsNsfw { get; init; }
 
