@@ -18,11 +18,11 @@
     {
         ulong? CategoryId { get; }
         ulong? GuildId { get; }
-        string Name { get; set; }
+        string Codeword { get; }
+        string Name { get; }
         bool IsNsfw { get; }
         int Position { get; }
 
         //TODO: IEnumerable<IUserInfo> Users;
-        //TODO: IEnumerable<IChannelInfo> Channels;
     }
 }
