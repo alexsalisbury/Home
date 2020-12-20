@@ -10,6 +10,7 @@ namespace Home.Service
     using Home.Core.DiscordBot.Models.Settings;
     using Home.Core.DiscordBot.Services;
     using Home.Core.Models.Settings;
+    using Home.Core.DiscordBot.Clients;
 
     public class Worker : BackgroundService
     {
@@ -46,7 +47,8 @@ namespace Home.Service
 
         private async Task StartupAsync()
         {
-            await DiscordService.StartAsync(ShyBotSettings);
+            var cloud = new ShyCloudClient(AzureSettings);
+            await DiscordService.StartAsync(ShyBotSettings, cloud);
 
             while (!DiscordService.IsConnected())
             {
@@ -64,6 +66,8 @@ namespace Home.Service
 
         private async Task QueueStartupTasksAsync()
         {
+            await DiscordManager.FetchConfigurationAsync();
+            await DiscordManager.SyncInfraAsync();
             await DiscordManager.StartArchiveAsync();
         }
 

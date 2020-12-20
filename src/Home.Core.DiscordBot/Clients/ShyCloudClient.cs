@@ -25,16 +25,16 @@
             this.settings = settings;
         }
 
-        private static async Task<HttpClient> GetClient(AzureSettings settings)
+        private static async Task<HttpClient> GetClientAsync(AzureSettings settings)
         {
             HttpClient client = HttpClientFactory.Create();
-            var (scheme, parameter) = await GetHeader(settings, null);
+            var (scheme, parameter) = await GetHeaderAsync(settings, null);
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(scheme, parameter);
             return client;
         }
 
-        private static async Task<(string, string)> GetHeader(AzureSettings settings, X509Certificate2? cert)
+        private static async Task<(string, string)> GetHeaderAsync(AzureSettings settings, X509Certificate2? cert)
         {
             //cert = cert ?? ReadCert();
 
@@ -63,10 +63,10 @@
             //    .Build();
         }
 
-        public async Task<IEnumerable<IExplainable>> FetchExplainables()
+        public async Task<IEnumerable<IExplainable>> FetchExplainablesAsync()
         {
             var url = settings.ShyCloudEndpoint + "explain";
-            using (var client = await GetClient(settings))
+            using (var client = await GetClientAsync(settings))
             {
                 try
                 {
@@ -85,7 +85,7 @@
             return new List<ExplainableDto>();
         }
 
-        public async Task UploadChannel(IChannelInfo dto)
+        public async Task UploadChannelAsync(IChannelInfo dto)
         {
             var url = settings.ShyCloudEndpoint + "channel";
             using (HttpClient client = HttpClientFactory.Create())

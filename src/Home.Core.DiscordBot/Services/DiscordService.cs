@@ -8,8 +8,10 @@
     using Discord.WebSocket;
     using Serilog;
     using Serilog.Events;
-    using Home.Core.DiscordBot.Models.Settings;
+    using Home.Core.DiscordBot.Clients;
     using Home.Core.DiscordBot.Models;
+    using Home.Core.DiscordBot.Models.Settings;
+    using Home.Core.DiscordBot.Models.Dtos;
 
     public class DiscordService
     {
@@ -18,9 +20,11 @@
         internal static DiscordSocketClient Client { get; private set; }
         internal Dictionary<string, Server> Servers { get; } = new Dictionary<string, Server>();
         internal Dictionary<ulong, string> ServerLookup { get; } = new Dictionary<ulong, string>();
+        private ShyCloudClient cloud;
 
-        private DiscordService(BotSettings settings)
+        private DiscordService(BotSettings settings, ShyCloudClient cloud)
         {
+            this.cloud = cloud;
             var servers = settings.Servers ?? new List<ServerInfo>() { settings.MainServer };
             Log.Information("Loading {serverCount} servers", servers?.Count());
 
@@ -30,10 +34,10 @@
             }
         }
 
-        public static async Task StartAsync(BotSettings settings)
+        public static async Task StartAsync(BotSettings settings, ShyCloudClient cloud)
         {
             Settings = settings;
-            Service = new DiscordService(settings);
+            Service = new DiscordService(settings, cloud);
             var existing = Client;
             var discordToken = settings.DiscordToken ?? Environment.GetEnvironmentVariable("DiscordToken");
             Client = Client ?? await CreateClient(discordToken);
@@ -47,14 +51,6 @@
             await Service.StartAsync();
         }
 
-        internal async Task StartAsync()
-        {
-            foreach (var s in Servers.Values)
-            {
-                s?.Initialize();
-            }
-        }
-
         internal static async Task<DiscordSocketClient> CreateClient(string discordToken, bool force = false)
         {
             if (!force && Client != null)
@@ -65,8 +61,8 @@
             Log.Information($"Creating a Discord client.");
             var client = new DiscordSocketClient();
             client.Log += WriteLog;
-            client.MessageReceived += Client_MessageReceived;
-            client.Disconnected += Disconnect;
+            client.MessageReceived += Client_MessageReceivedAsync;
+            client.Disconnected += Client_DisconnectAsync;
 
             // Remember to keep token private or to read it from an external source! 
             // In this case, we are reading the token from usersecrets or an environment variable. 
@@ -81,6 +77,49 @@
             return Client.ConnectionState == ConnectionState.Connected;
         }
 
+        public async Task FetchConfigurationAsync()
+        {
+            await LoadExplanationsAsync();
+        }
+
+        public async Task LoadExplanationsAsync()
+        {
+            try
+            {
+                var explains = await cloud.FetchExplainablesAsync();
+                Log.Information("Found {explainCount} explains.", explains.Count());
+                //ExplainCommand.RegisterExplains(explains);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Unable to load explains.");
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>It is intended that this can be called at any time to make save all changes easy. Channel count should be sub 100.</remarks>
+        /// <returns></returns>
+        public async Task SyncInfraAsync()
+        {
+            foreach (var s in Servers.Values)
+            {
+                try
+                {
+                    var channels = s.Channels;
+                    foreach (var c in channels.Values)
+                    {
+                        await cloud.UploadChannelAsync(c.ToDto());
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "Error uploading channels for {codeword}", s.Codeword);
+                }
+            }
+        }
+
         public async Task<bool> StartArchiveAsync()
         {
             var result = true;
@@ -92,18 +131,19 @@
 
             return result;
         }
-        private static Task Disconnect(Exception arg)
+
+        private static Task Client_DisconnectAsync(Exception arg)
         {
-            Log.Error(arg, "Disconn");
+            Log.Error(arg, "Disconnect detected.");
             return Task.CompletedTask;
         }
 
-        private static async Task Client_MessageReceived(SocketMessage arg)
+        private static async Task Client_MessageReceivedAsync(SocketMessage arg)
         {
-            await Service.HandleMessage(arg);
+            await Service.HandleMessageAsync(arg);
         }
 
-        private async Task HandleMessage(SocketMessage arg)
+        private async Task HandleMessageAsync(SocketMessage arg)
         {
             try
             {
@@ -118,13 +158,14 @@
                     var server = GetServer(channel.Guild.Id);
                     if (server == null)
                     {
-                        Log.Error("Message from unknown server.");
+                        Log.Error("Message from unknown server {guildid}", (channel?.Guild?.Id??0));
                         return;
                     }
 
                    //var user = server?.ServerUsers?.GetOrAdd(message.Author.Id, GenerateUser(message));
-                    var discordChannel = server.GetChannel(channel.Name, true);
+                    var discordChannel = server.GetChannel(channel, true);
 
+                    await Task.Delay(1); // Placeholder await here.
                     //TODO: await TryWake();
                     //user?.HandleMessage(message, discordChannel, Settings);
                 }
@@ -191,6 +232,14 @@
             }
 
             return Task.CompletedTask;
+        }
+
+        private async Task StartAsync()
+        {
+            foreach (var s in Servers.Values)
+            {
+                await s?.InitializeAsync();
+            }
         }
     }
 }
