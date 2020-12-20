@@ -56,20 +56,20 @@
             Guilds[server.Codeword] = this;
         }
 
-        public void Initialize()
+        public async Task InitializeAsync()
         {
             this.GetGuild();
+            var actualChannels = guild.TextChannels;
 
-            // If you change the order here, you'll need to update the default warnIfMissing values below.
-            var autoChannels = guild.TextChannels;
-            foreach (var c in autoChannels)
+            foreach (var c in actualChannels)
             {
-                GetChannel(c.Name, true);
-            }
+                var dc = GetChannel(c, true); //Normally false, but I want it noisy.
+                var setting = channelSettings.FirstOrDefault(cs => cs.Name == c.Name);
 
-            foreach (var c in channelSettings)
-            {
-                GetChannel(c.Name, true);
+                if (setting != null)
+                {
+                    await dc.AddSettingsAsync(setting);
+                }
             }
         }
 
@@ -128,27 +128,25 @@
         /// <param name="warnIfMissing">Warns if a channel is encountered that is not already known.</param>
         /// <remarks>warnIfMissing should be false on initialization and true for the rest of the program execution.</remarks>
         /// <returns>the channel if found or created. null otherwise.</returns>
-        public DiscordChannel GetChannel(string channelName, bool ensure, bool warnIfMissing = false)
+        public DiscordChannel GetChannel(SocketTextChannel channel, bool ensure, bool warnIfMissing = false)
         {
-            if (!this.Channels.ContainsKey(channelName))
+            if (!this.Channels.ContainsKey(channel.Name))
             {
                 if (ensure)
                 {
-                    if (Channels.ContainsKey(channelName))
+                    if (Channels.ContainsKey(channel.Name))
                     {
-                        return Channels[channelName];
+                        return Channels[channel.Name];
                     }
 
                     if (warnIfMissing)
                     {
-                        Log.Warning($"Channel {channelName} was not found in existing channels.");
+                        Log.Warning($"Channel {channel.Name} was not found in existing channels.");
                     }
 
                     var guild = this.GetGuild();
-                    var channels = guild.TextChannels;
-                    var channel = channels.First(c => c.Name == channelName);
-                    var ch = new DiscordChannel(this.Codeword, channelName, channel);
-                    Channels[channelName] = ch;
+                    var ch = new DiscordChannel(this.Codeword, channel);
+                    Channels[channel.Name] = ch;
                 }
                 else
                 {
@@ -156,49 +154,49 @@
                 }
             }
 
-            return Channels[channelName];
+            return Channels[channel.Name];
         }
 
-        /// <summary>
-        /// Gets a channel on this server.
-        /// TODO: Update this doc to talk about how this is intended for channel population from config file, so we expect the channel to exist, but we will bail you out.
-        /// </summary>
-        /// <param name="channelName">The channel to get</param>
-        /// <param name="ensure">Whether to ensure the channel asked about exists.</param>
-        /// <param name="warnIfMissing">Warns if a channel is encountered that is not already known.</param>
-        /// <remarks>warnIfMissing should be be true in most known scenarios.</remarks>
-        /// <returns>the channel if found or created. null otherwise.</returns>
-        public DiscordChannel GetChannel(ChannelSettings settings, bool ensure, bool warnIfMissing = true)
-        {
-            var channelName = settings.Name;
+        ///// <summary>
+        ///// Gets a channel on this server.
+        ///// TODO: Update this doc to talk about how this is intended for channel population from config file, so we expect the channel to exist, but we will bail you out.
+        ///// </summary>
+        ///// <param name="channelName">The channel to get</param>
+        ///// <param name="ensure">Whether to ensure the channel asked about exists.</param>
+        ///// <param name="warnIfMissing">Warns if a channel is encountered that is not already known.</param>
+        ///// <remarks>warnIfMissing should be be true in most known scenarios.</remarks>
+        ///// <returns>the channel if found or created. null otherwise.</returns>
+        //public DiscordChannel GetChannel(ChannelSettings settings, bool ensure, bool warnIfMissing = true)
+        //{
+        //    var channelName = settings.Name;
 
-            if (!this.Channels.ContainsKey(channelName))
-            {
-                if (ensure)
-                {
-                    if (Channels.ContainsKey(channelName))
-                    {
-                        return Channels[channelName];
-                    }
+        //    if (!this.Channels.ContainsKey(channelName))
+        //    {
+        //        if (ensure)
+        //        {
+        //            if (Channels.ContainsKey(channelName))
+        //            {
+        //                return Channels[channelName];
+        //            }
 
-                    if (warnIfMissing)
-                    {
-                        Log.Warning($"Channel {channelName} was not found in existing channels.");
-                    }
+        //            if (warnIfMissing)
+        //            {
+        //                Log.Warning($"Channel {channelName} was not found in existing channels.");
+        //            }
 
-                    var guild = this.GetGuild();
-                    var channels = guild.TextChannels;
-                    var channel = channels.First(c => c.Name == channelName);
-                    var ch = new DiscordChannel(this.Codeword, settings, channel);
-                    Channels[channelName] = ch;
-                }
-                else
-                {
-                    return null;
-                }
-            }
+        //            var guild = this.GetGuild();
+        //            var channels = guild.TextChannels;
+        //            var channel = channels.First(c => c.Name == channelName);
+        //            var ch = new DiscordChannel(this.Codeword, settings, channel);
+        //            Channels[channelName] = ch;
+        //        }
+        //        else
+        //        {
+        //            return null;
+        //        }
+        //    }
 
-            return Channels[channelName];
-        }
+        //    return Channels[channelName];
+        //}
     }
 }
