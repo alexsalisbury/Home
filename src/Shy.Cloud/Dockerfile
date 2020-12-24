@@ -7,14 +7,13 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["**/Shy.Cloud/Shy.Cloud.csproj", "src/Shy.Cloud/"]
+COPY ["src/Shy.Cloud/Shy.Cloud.csproj", "src/Shy.Cloud/"]
 RUN dotnet restore "src/Shy.Cloud/Shy.Cloud.csproj"
 COPY . .
-WORKDIR "Shy.Cloud"
-RUN dotnet build "Shy.Cloud.csproj" -c Release -o /app/build
+RUN dotnet build "src/Shy.Cloud/Shy.Cloud.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Shy.Cloud.csproj" -c Release -o /app/publish
+RUN dotnet publish "src/Shy.Cloud/Shy.Cloud.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
