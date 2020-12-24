@@ -10,12 +10,6 @@ variables:
   solution: '**\Home.sln'
 
 steps:
-- task: Docker@2
-  inputs:
-    containerRegistry: 'vs.alexsalisbury'
-    repository: 'shycloud'
-    command: 'buildAndPush'
-    Dockerfile: '**/Shy.Cloud/Dockerfile'
 - script: |
     dotnet build Home.sln --configuration $(buildConfiguration)
 - task: NuGetCommand@2
@@ -28,3 +22,9 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+- task: Docker@2
+  inputs:
+    containerRegistry: 'vs.alexsalisbury'
+    repository: 'shycloud'
+    command: 'buildAndPush'
+    Dockerfile: '**/Shy.Cloud/Dockerfile'
