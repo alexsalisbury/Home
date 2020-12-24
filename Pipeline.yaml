@@ -27,4 +27,5 @@ steps:
     containerRegistry: 'vs.alexsalisbury'
     repository: 'shycloud'
     command: 'buildAndPush'
-    Dockerfile: '**/Shy.Cloud/Dockerfile'
+    Dockerfile: 'src/Shy.Cloud/Dockerfile'
+    buildContext: '$(Build.SourcesDirectory)/Home/'
