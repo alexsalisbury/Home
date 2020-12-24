@@ -26,8 +26,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Home.Core.DiscordBot", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shy.Cloud", "src\Shy.Cloud\Shy.Cloud.csproj", "{401FAECB-51E1-4A45-93CC-417555325EFF}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Shy.Database", "src\Shy.Database\Shy.Database.sqlproj", "{01DB61E4-BF14-4520-B9FD-2B906971E2D9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
