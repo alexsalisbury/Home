@@ -7,7 +7,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
-COPY ["src/Shy.Cloud/Shy.Cloud.csproj", "src/Shy.Cloud/"]
+COPY ["**/Shy.Cloud/Shy.Cloud.csproj", "src/Shy.Cloud/"]
 RUN dotnet restore "src/Shy.Cloud/Shy.Cloud.csproj"
 COPY . .
 WORKDIR "/src/src/Shy.Cloud"
