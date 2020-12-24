@@ -10,7 +10,7 @@ WORKDIR /src
 COPY ["**/Shy.Cloud/Shy.Cloud.csproj", "src/Shy.Cloud/"]
 RUN dotnet restore "src/Shy.Cloud/Shy.Cloud.csproj"
 COPY . .
-WORKDIR "/src/src/Shy.Cloud"
+WORKDIR "Shy.Cloud"
 RUN dotnet build "Shy.Cloud.csproj" -c Release -o /app/build
 
 FROM build AS publish
