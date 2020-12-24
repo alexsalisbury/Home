@@ -10,7 +10,6 @@ variables:
   solution: '**\Home.sln'
 
 steps:
-- 
 - task: DockerCompose@0
   inputs:
     containerregistrytype: 'Azure Container Registry'
@@ -27,7 +26,6 @@ steps:
     dockerComposeFile: '**/Shy.Cloud/docker-compose.yml'
     action: 'Run a Docker Compose command'
     dockerComposeCommand: 'buildandpush'
-
 - script: |
     dotnet build Home.sln --configuration $(buildConfiguration)
 - task: NuGetCommand@2
