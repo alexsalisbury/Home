@@ -10,22 +10,12 @@ variables:
   solution: '**\Home.sln'
 
 steps:
-- task: DockerCompose@0
+- task: Docker@2
   inputs:
-    containerregistrytype: 'Azure Container Registry'
-    azureSubscription: 'Visual Studio Professional Subscription(d439fb17-bf2c-4b1b-8bb9-da6742a74d97)'
-    azureContainerRegistry: '{"loginServer":"alexsalisbury.azurecr.io", "id" : "/subscriptions/d439fb17-bf2c-4b1b-8bb9-da6742a74d97/resourceGroups/shybot/providers/Microsoft.ContainerRegistry/registries/alexsalisbury"}'
-    dockerComposeFile: '**/Shy.Cloud/docker-compose.yml'
-    action: 'Run a Docker Compose command'
-    dockerComposeCommand: 'login'
-- task: DockerCompose@0
-  inputs:
-    containerregistrytype: 'Azure Container Registry'
-    azureSubscription: 'Visual Studio Professional Subscription(d439fb17-bf2c-4b1b-8bb9-da6742a74d97)'
-    azureContainerRegistry: '{"loginServer":"alexsalisbury.azurecr.io", "id" : "/subscriptions/d439fb17-bf2c-4b1b-8bb9-da6742a74d97/resourceGroups/shybot/providers/Microsoft.ContainerRegistry/registries/alexsalisbury"}'
-    dockerComposeFile: '**/Shy.Cloud/docker-compose.yml'
-    action: 'Run a Docker Compose command'
-    dockerComposeCommand: 'buildandpush'
+    containerRegistry: 'vs.alexsalisbury'
+    repository: 'shycloud'
+    command: 'buildAndPush'
+    Dockerfile: '**/Shy.Cloud/Dockerfile'
 - script: |
     dotnet build Home.sln --configuration $(buildConfiguration)
 - task: NuGetCommand@2
