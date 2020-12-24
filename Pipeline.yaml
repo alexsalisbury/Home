@@ -11,6 +11,12 @@ variables:
 
 steps:
 - task: Docker@2
+  displayName: Login to ACR
+  inputs:
+    command: login
+    containerRegistry: 'vs.alexsalisbury'
+
+- task: Docker@2
   inputs:
     containerRegistry: 'vs.alexsalisbury'
     command: 'buildAndPush'
