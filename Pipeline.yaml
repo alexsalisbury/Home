@@ -9,6 +9,13 @@ variables:
   buildPlatform: 'Any CPU'
   solution: '**\Home.sln'
 
+- task: Docker@2
+  inputs:
+    containerRegistry: 'vs.alexsalisbury'
+    repository: 'shyCloud'
+    command: 'buildAndPush'
+    Dockerfile: '**/Shy.Cloud/Dockerfile'
+
 steps:
 - script: |
     dotnet build Home.sln --configuration $(buildConfiguration)
