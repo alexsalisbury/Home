@@ -13,7 +13,7 @@ variables:
   dockerRegistryServiceConnection: '260febb5-f150-4bf8-acc7-b49d92d2a3a8'
   imageRepository: 'shycloud'
   containerRegistry: 'alexsalisbury.azurecr.io'
-  dockerfilePath: '**/Shy.Cloud/Dockerfile'
+  dockerfilePath: 'src/Shy.Cloud/Dockerfile'
   tag: '$(Build.BuildId)'
   
   # Agent VM image name
