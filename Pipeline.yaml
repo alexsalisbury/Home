@@ -28,4 +28,4 @@ steps:
     repository: 'shycloud'
     command: 'buildAndPush'
     Dockerfile: 'src/Shy.Cloud/Dockerfile'
-    buildContext: '$(Build.SourcesDirectory)/Home/'
+    buildContext: '$(Build.SourcesDirectory)/'
