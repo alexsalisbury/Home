@@ -57,12 +57,11 @@ namespace Shy.Cloud
             {
                 try
                 {
-                    Log.Information("Adding file {configFile}", s);
                     builder = builder.AddJsonFile(s);
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex.ToString());
+                    Console.Error.WriteLine(ex.ToString());
                 }
             }
 
