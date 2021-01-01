@@ -51,9 +51,9 @@ namespace Shy.Cloud
                 Startup.connStr = Configuration.GetConnectionString("Cloud");
                 Log.Warning("Make repos");
 
-                //services.AddTransient<IChannelRepository>(f => new ChannelRepository(connStr));
-                //services.AddTransient<IMessageRepository>(f => new MessageRepository(connStr));
-                //services.AddTransient<IUserRepository>(f => new UserRepository(connStr));
+                services.AddTransient<IChannelRepository>(f => new ChannelRepository(connStr));
+                services.AddTransient<IMessageRepository>(f => new MessageRepository(connStr));
+                services.AddTransient<IUserRepository>(f => new UserRepository(connStr));
                 Log.Warning("Done.");
             }
             catch (Exception ex)
