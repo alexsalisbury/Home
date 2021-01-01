@@ -5,10 +5,13 @@ namespace Shy.Cloud
     using Microsoft.Extensions.Hosting;
     using Serilog;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public class Program
     {
+        private static string envName;
+
         public static async Task Main(string[] args)
         {
             var configuration = LoadConfig();
@@ -18,6 +21,24 @@ namespace Shy.Cloud
             CreateHostBuilder(args).Build().Run();
         }
 
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .UseSerilog(Log.Logger)
+                .ConfigureAppConfiguration(builder =>
+                {
+                    builder.AddJsonFile("appsettings.json");
+
+                    foreach (var s in GetConfigFiles())
+                    {
+                        builder = builder.AddJsonFile(s);
+                    }
+                })
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+
+
         private static IConfiguration LoadConfig()
         {
             // TODO: Config by Environment. Read from A: Drive?
@@ -25,33 +46,47 @@ namespace Shy.Cloud
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json");
 
+            foreach (var s in GetConfigFiles())
+            {
+                builder = builder.AddJsonFile(s);
+            }
+
+            return builder.Build();
+        }
+
+        private static IEnumerable<string> GetConfigFiles()
+        { 
             var envName = GetEnvironmentName();
             switch (envName.ToLower())
             {
                 case "development":
-                    builder = builder.AddJsonFile("appsettings.Development.json");
+                    yield return "appsettings.Development.json";
+                    yield return "ShyCloud.Dev.json";
                     break;
                 case "test":
-                    builder = builder.AddJsonFile("appsettings.Test.json");
+                    yield return "appsettings.Test.json";
                     break;
                 case "local":
-                    builder = builder.AddJsonFile("appsettings.Local.json");
+                    yield return "appsettings.Local.json";
+                    yield return "ShyCloud.Local.json";
                     break;
                 case "azure":
-                    builder = builder.AddJsonFile("appsettings.Azure.json");
+                    yield return "appsettings.Azure.json";
                     break;
                 default:
                     break;
             }
-
-            builder.AddUserSecrets<Program>();
-            return builder.Build();
         }
 
         private static string GetEnvironmentName()
         {
-            var env = Environment.GetEnvironmentVariable("SHY_CLOUD_ENV");
-            return env ?? string.Empty;
+            if (string.IsNullOrWhiteSpace(envName))
+            {
+                var env = Environment.GetEnvironmentVariable("SHY_CLOUD_ENV");
+                envName = env ?? envName;
+            }
+
+            return envName ?? string.Empty;
         }
 
         private static void SetupLogging(IConfiguration configuration)
@@ -59,19 +94,12 @@ namespace Shy.Cloud
             var logConfig = new LoggerConfiguration()
                 .ReadFrom.Configuration(configuration);
 
-            var k = logConfig.CreateLogger();
-            var m = logConfig.WriteTo;
-            Log.Logger = k;
+            Log.Logger = logConfig.CreateLogger();
+
             //TODO: Log relevant settings on startup.
             Log.Warning("Starting.");
+            Log.Information("Environment.Machinename: {machineName}", Environment.MachineName);
+            Log.Information("Environment Name: {env}", GetEnvironmentName());
         }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .UseSerilog(Log.Logger)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
     }
 }
