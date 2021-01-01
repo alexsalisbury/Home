@@ -34,20 +34,28 @@ namespace Shy.Cloud
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(AzureADDefaults.BearerAuthenticationScheme)
-                .AddAzureADBearer(options => Configuration.Bind("AzureAd", options));
-            services.AddControllers();
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "ShybotCloud", Version = "v1" });
-            //});
+            //services.AddAuthentication(AzureADDefaults.BearerAuthenticationScheme)
+            //    .AddAzureADBearer(options => Configuration.Bind("AzureAd", options));
+            //services.AddControllers();
+            ////services.AddSwaggerGen(c =>
+            ////{
+            ////    c.SwaggerDoc("v1", new OpenApiInfo { Title = "ShybotCloud", Version = "v1" });
+            ////});
 
-            Startup.connStr = Configuration.GetConnectionString("Cloud");
-
-            services.AddTransient<IChannelRepository>(f => new ChannelRepository(connStr));
             services.AddTransient<IExplainRepository>(f => new ExplainRepository());
-            services.AddTransient<IMessageRepository>(f => new MessageRepository(connStr));
-            services.AddTransient<IUserRepository>(f => new UserRepository(connStr));
+
+            try
+            {
+                Startup.connStr = Configuration.GetConnectionString("Cloud");
+
+                services.AddTransient<IChannelRepository>(f => new ChannelRepository(connStr));
+                services.AddTransient<IMessageRepository>(f => new MessageRepository(connStr));
+                services.AddTransient<IUserRepository>(f => new UserRepository(connStr));
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Failed to get connstr?");
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,8 +70,8 @@ namespace Shy.Cloud
 
             app.UseRouting();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+           // app.UseAuthentication();
+           // app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
