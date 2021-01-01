@@ -14,13 +14,10 @@ namespace Shy.Cloud
 
         public static async Task Main(string[] args)
         {
-            Console.WriteLine("Init");
             var configuration = LoadConfig();
-            Console.WriteLine("Code load.");
             SetupLogging(configuration);
             await Task.Delay(1000);
 
-            Console.WriteLine("Starting");
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -33,7 +30,15 @@ namespace Shy.Cloud
 
                     foreach (var s in GetConfigFiles())
                     {
-                        builder = builder.AddJsonFile(s);
+                        try
+                        {
+                            Log.Information("Adding file {configFile} to host", s);
+                            builder = builder.AddJsonFile(s);
+                        }
+                        catch (Exception ex)
+                        {
+                           Log.Error(ex.ToString());
+                        }
                     }
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
@@ -44,7 +49,6 @@ namespace Shy.Cloud
 
         private static IConfiguration LoadConfig()
         {
-            // TODO: Config by Environment. Read from A: Drive?
             // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-5.0
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json");
@@ -53,11 +57,12 @@ namespace Shy.Cloud
             {
                 try
                 {
+                    Log.Information("Adding file {configFile}", s);
                     builder = builder.AddJsonFile(s);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.ToString());
+                    Log.Error(ex.ToString());
                 }
             }
 
