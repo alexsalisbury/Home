@@ -14,10 +14,13 @@ namespace Shy.Cloud
 
         public static async Task Main(string[] args)
         {
+            Console.WriteLine("Init");
             var configuration = LoadConfig();
+            Console.WriteLine("Code load.");
             SetupLogging(configuration);
             await Task.Delay(1000);
 
+            Console.WriteLine("Starting");
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -48,7 +51,14 @@ namespace Shy.Cloud
 
             foreach (var s in GetConfigFiles())
             {
-                builder = builder.AddJsonFile(s);
+                try
+                {
+                    builder = builder.AddJsonFile(s);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
             }
 
             return builder.Build();
