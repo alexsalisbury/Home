@@ -15,6 +15,7 @@
         private IExplainRepository repo;
         public ExplainController(IExplainRepository executionRepository)
         {
+            Log.Warning("ExplainController.");
             this.repo = executionRepository;
         }
 
