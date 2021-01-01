@@ -37,7 +37,7 @@ namespace Shy.Cloud
             Log.Warning("ConfigureServices.");
             //services.AddAuthentication(AzureADDefaults.BearerAuthenticationScheme)
             //    .AddAzureADBearer(options => Configuration.Bind("AzureAd", options));
-            //services.AddControllers();
+            services.AddControllers();
             ////services.AddSwaggerGen(c =>
             ////{
             ////    c.SwaggerDoc("v1", new OpenApiInfo { Title = "ShybotCloud", Version = "v1" });
