@@ -1,0 +1,9 @@
+{
+  "name": "dotcom",
+  "version": "0.1.0",
+  "description": "My personal website",
+  "main": "server.js",
+  "author": {
+    "name": "Alex Salisbury"
+  }
+}
