@@ -22,8 +22,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Home.Core.DiscordBot", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shy.Cloud", "src\Shy.Cloud\Shy.Cloud.csproj", "{401FAECB-51E1-4A45-93CC-417555325EFF}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Me.Com", "src\Me.Com\Me.Com.njsproj", "{F22FA6AA-3471-4C87-8DB8-9AA290B75487}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,14 +62,6 @@ Global
 		{401FAECB-51E1-4A45-93CC-417555325EFF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{401FAECB-51E1-4A45-93CC-417555325EFF}.Release|x64.ActiveCfg = Release|Any CPU
 		{401FAECB-51E1-4A45-93CC-417555325EFF}.Release|x64.Build.0 = Release|Any CPU
-		{F22FA6AA-3471-4C87-8DB8-9AA290B75487}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F22FA6AA-3471-4C87-8DB8-9AA290B75487}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F22FA6AA-3471-4C87-8DB8-9AA290B75487}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F22FA6AA-3471-4C87-8DB8-9AA290B75487}.Debug|x64.Build.0 = Debug|Any CPU
-		{F22FA6AA-3471-4C87-8DB8-9AA290B75487}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F22FA6AA-3471-4C87-8DB8-9AA290B75487}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F22FA6AA-3471-4C87-8DB8-9AA290B75487}.Release|x64.ActiveCfg = Release|Any CPU
-		{F22FA6AA-3471-4C87-8DB8-9AA290B75487}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
