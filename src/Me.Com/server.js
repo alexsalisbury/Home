@@ -3,7 +3,7 @@ const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const path = require('path');
-const port = process.env.PORT || 1337;
+const port = 1337; //process.env.PORT || 1337;
 
 const app = express();
 app.set('views', path.join(__dirname, 'views'));
