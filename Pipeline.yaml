@@ -43,3 +43,10 @@ steps:
     command: 'buildAndPush'
     Dockerfile: 'src/Shy.Cloud/Dockerfile'
     buildContext: '$(Build.SourcesDirectory)/'
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Dockerhub'
+    repository: 'alexsalisbury/dotcom'
+    command: 'buildAndPush'
+    Dockerfile: 'src/Me.Com/Dockerfile'
+    buildContext: '$(Build.SourcesDirectory)/'
