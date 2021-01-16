@@ -1,0 +1,40 @@
+.vert {
+    background:url(/beach-clear-green-1200w.jpg) 0 0/cover no-repeat #5bbbbb;
+    display:flex;
+    flex-direction:column;
+    height:100vh
+}
+.auth {
+    text-align:right;
+    height:30px;
+    font-size:10px
+}
+.auth   a {
+    color:#000;
+    text-decoration:none
+}
+.mainbox {
+    display:flex;
+    height:100vh
+}
+footer {
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start
+}
+.social {
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end
+}
+.social   img {
+    margin:5px;
+    height:32px;
+    width:32px
+}
+.att   a,
+.copy,
+a:visited {
+    color:#faebd7;
+    font-size:8px
+}
