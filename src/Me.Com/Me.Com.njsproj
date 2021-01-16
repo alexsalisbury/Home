@@ -28,9 +28,27 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="assets\beach-clear-green-1200w.jpg" />
+    <Content Include="assets\beach-clear-green-735621.jpg" />
+    <Content Include="assets\GitHub-Mark-Light-32px.png" />
+    <Content Include="assets\GitHub_Logo_White.png" />
+    <Content Include="assets\home.css" />
+    <Content Include="assets\insta.png" />
+    <Content Include="assets\Spotify_Icon_RGB_Green.png" />
+    <Content Include="assets\styles.css" />
+    <Content Include="assets\Twitter_Social_Icon_Rounded_Square_Color.png" />
+    <Content Include="views\pages\home.ejs" />
+    <None Include="Properties\PublishProfiles\alexsalisburydotcom - Web Deploy.pubxml" />
     <Content Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="assets\" />
+    <Folder Include="Properties\" />
+    <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="views\" />
+    <Folder Include="views\pages\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>
