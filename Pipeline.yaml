@@ -29,6 +29,9 @@ steps:
     command: 'buildAndPush'
     Dockerfile: 'src/Shy.Cloud/Dockerfile'
     buildContext: '$(Build.SourcesDirectory)/'
+    tags: |
+      $(Build.BuildId)
+      latest
 - task: Docker@2
   inputs:
     containerRegistry: 'vs.alexsalisbury'
@@ -36,6 +39,9 @@ steps:
     command: 'buildAndPush'
     Dockerfile: 'src/Me.Com/Dockerfile'
     buildContext: '$(Build.SourcesDirectory)/'
+    tags: |
+      $(Build.BuildId)
+      latest
 - task: Docker@2
   inputs:
     containerRegistry: 'Dockerhub'
