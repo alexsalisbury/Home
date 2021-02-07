@@ -36,5 +36,5 @@ steps:
     testResultsFiles: '**/*.trx'
 - task: PowerShell@2
   inputs:
-    filePath: '**/codecov.ps1'
+    filePath: 'codecov.ps1'
     arguments: '-token $(CODECOV_TOKEN)'
