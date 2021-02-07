@@ -10,6 +10,9 @@ variables:
   solution: '**\Home.sln'
 
 steps:
+- task: ServiceFabricUpdateManifests@2
+  inputs:
+    versionSuffix: '5.0.x'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
