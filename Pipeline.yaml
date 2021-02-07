@@ -8,6 +8,7 @@ variables:
   buildConfiguration: 'Release'
   buildPlatform: 'Any CPU'
   solution: '**\Home.sln'
+  disable.coverage.autogenerate: 'true' # because we overwrite the coverage report generation
 
 steps:
 - task: UseDotNet@2
@@ -18,6 +19,19 @@ steps:
   inputs:
     version: '3.1.x'
     packageType: runtime
+- task: NuGetToolInstaller@1
+- task: DotNetCoreCLI@2
+  inputs:
+    command: custom
+    custom: tool
+    arguments: install --tool-path . dotnet-reportgenerator-globaltool
+  displayName: Install ReportGenerator tool
+- task: DotNetCoreCLI@2
+  inputs:
+    command: custom
+    custom: tool
+    arguments: install --tool-path . coverlet.console
+  displayName: Install Coverlet.Console tool
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
@@ -33,10 +47,23 @@ steps:
     PathtoPublish: '$(Build.SourcesDirectory)'
     ArtifactName: 'src'
     publishLocation: 'Container'
+
+- script: |
+    mkdir .\reports
+    .\reportgenerator.exe -reports:*coverage.cobertura.xml -targetdir:reports -reporttypes:"HTMLInline;HTMLChart"
+    dir .\reports
+  displayName: Create coverage reports in html format to be displayed in AzureDevOps
+- script: |
+    mkdir .\reports
+    .\reportgenerator.exe -reports:*coverage.cobertura.xml -targetdir:reports -reporttypes:"cobertura"
+    dir .\reports
+  displayName: Create coverage reports in xml format to be used for summary
+
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'cobertura'
-    summaryFileLocation: $(Build.SourcesDirectory)/tests/**/coverage.cobertura.xml
+    summaryFileLocation: '$(system.defaultworkingdirectory)\reports\Cobertura.xml'
+    reportDirectory: '$(system.defaultworkingdirectory)\reports'
 
 - task: NuGetCommand@2
   inputs:
