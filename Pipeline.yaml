@@ -28,6 +28,11 @@ steps:
     command: 'test'
     projects: '**/test/*.Tests/*.csproj'
     arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Include="[Home.*]*" /p:Exclude="[*Tests]*"'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'test'
+    publishLocation: 'Container'
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'cobertura'
