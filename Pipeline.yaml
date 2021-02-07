@@ -56,12 +56,6 @@ steps:
     summaryFileLocation: '$(system.defaultworkingdirectory)\reports\Cobertura.xml'
     reportDirectory: '$(system.defaultworkingdirectory)\reports'
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.SourcesDirectory)'
-    ArtifactName: 'src'
-    publishLocation: 'Container'
-
 - task: NuGetCommand@2
   inputs:
     command: 'pack'
