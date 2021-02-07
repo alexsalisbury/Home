@@ -20,12 +20,6 @@ steps:
     packageType: runtime
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'restore'
-    projects: '**/*.csproj'
-    feedsToUse: 'select'
-    vstsFeed: '420296a8-b9e3-4cf7-b3bb-03b6a14bc54d/b4fdf3af-3118-44f7-941e-3cb32243bd36'
-- task: DotNetCoreCLI@2
-  inputs:
     command: 'build'
     projects: 'Home.sln'
     arguments: '--configuration $(buildConfiguration)'
