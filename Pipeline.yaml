@@ -41,17 +41,23 @@ steps:
   inputs:
     command: 'test'
     projects: '**/test/*.Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Include="[Home.*]*" /p:Exclude="[*Tests]*"'
-
-- script: |
-    mkdir .\reports
-    reportgenerator.exe -reports:*coverage.cobertura.xml -targetdir:reports -reporttypes:"HTMLInline;HTMLChart"
-    dir .\reports
-  displayName: Create coverage reports in html format to be displayed in AzureDevOps
-- script: |
-    reportgenerator.exe -reports:*coverage.cobertura.xml -targetdir:reports -reporttypes:"cobertura"
-    dir .\reports
-  displayName: Create coverage reports in xml format to be used for summary
+    arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Include="[Home.*]*" /p:Exclude="[*Tests]*"  /p:CoverletOutput=$(System.DefaultWorkingDirectory)/TestResults/Coverage/'
+# Create report
+- task: DotNetCoreCLI@2
+  displayName: "Generating code coverage Reports"
+  inputs:
+    projects: '**/*.Tests/*.csproj'
+    command: custom
+    custom: reportgenerator
+    arguments: "-reports:$(System.DefaultWorkingDirectory)/TestResults/Coverage/*.xml -targetdir:results -reporttypes:HTMLInline;HTMLChart"
+    # Create report
+- task: DotNetCoreCLI@2
+  displayName: "Generating code coverage Reports"
+  inputs:
+    projects: '**/*.Tests/*.csproj'
+    command: custom
+    custom: reportgenerator
+    arguments: "-reports:$(System.DefaultWorkingDirectory)/TestResults/Coverage/*.xml -targetdir:results -reporttypes:cobertura"
 
 - task: PublishCodeCoverageResults@1
   inputs:
