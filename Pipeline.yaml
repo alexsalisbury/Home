@@ -30,8 +30,8 @@ steps:
     arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Include="[Home.*]*" /p:Exclude="[*Tests]*"'
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'test'
+    PathtoPublish: '$(Build.SourcesDirectory)'
+    ArtifactName: 'src'
     publishLocation: 'Container'
 - task: PublishCodeCoverageResults@1
   inputs:
