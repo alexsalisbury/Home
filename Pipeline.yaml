@@ -19,11 +19,11 @@ steps:
   inputs:
     command: 'test'
     projects: '**/test/*.Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration) --logger trx --results-directory "**/test/" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Include="[Home.*]*" /p:Exclude="[*Tests]*"'
+    arguments: '--configuration $(buildConfiguration) --logger trx --results-directory "$(System.DefaultWorkingDirectory)/test/" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Include="[Home.*]*" /p:Exclude="[*Tests]*"'
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'VSTest'
-    testResultsFiles: '**/test/*.Tests/TestResults/*.trx'
+    testResultsFiles: '**/test/*.trx'
 - task: NuGetCommand@2
   inputs:
     command: 'pack'
