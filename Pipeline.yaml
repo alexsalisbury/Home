@@ -24,13 +24,13 @@ steps:
   inputs:
     command: custom
     custom: tool
-    arguments: install --tool-path . dotnet-reportgenerator-globaltool
+    arguments: install dotnet-reportgenerator-globaltool -g
   displayName: Install ReportGenerator tool
 - task: DotNetCoreCLI@2
   inputs:
     command: custom
     custom: tool
-    arguments: install --tool-path . coverlet.console
+    arguments: install coverlet.console -g
   displayName: Install Coverlet.Console tool
 - task: DotNetCoreCLI@2
   inputs:
@@ -54,7 +54,6 @@ steps:
     dir .\reports
   displayName: Create coverage reports in html format to be displayed in AzureDevOps
 - script: |
-    mkdir .\reports
     reportgenerator.exe -reports:*coverage.cobertura.xml -targetdir:reports -reporttypes:"cobertura"
     dir .\reports
   displayName: Create coverage reports in xml format to be used for summary
