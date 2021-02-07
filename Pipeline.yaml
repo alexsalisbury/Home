@@ -23,7 +23,7 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'VSTest'
-    testResultsFiles: '**/*.trx'
+    testResultsFiles: '**/coverage.opencover.xml'
 - task: NuGetCommand@2
   inputs:
     command: 'pack'
