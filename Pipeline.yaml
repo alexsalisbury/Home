@@ -33,12 +33,11 @@ steps:
   inputs:
     command: 'test'
     projects: '**/test/*.Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertuba /p:Include="[Home.*]*" /p:Exclude="[*Tests]*"'
+    arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Include="[Home.*]*" /p:Exclude="[*Tests]*"'
 - task: PublishCodeCoverageResults@1
   inputs:
-    codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '**/coverage.xml'
-    pathToSources: '$(System.DefaultWorkingDirectory)/src'
+    codeCoverageTool: 'cobertura'
+    summaryFileLocation: $(Build.SourcesDirectory)/tests/**/coverage.cobertura.xml
 
 - task: NuGetCommand@2
   inputs:
