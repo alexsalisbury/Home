@@ -10,8 +10,16 @@ variables:
   solution: '**\Home.sln'
 
 steps:
-- script: |
-    dotnet build Home.sln --configuration $(buildConfiguration)
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: 'Home.sln'
+    arguments: '--configuration $(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
+    projects: '**/test/*.Tests/*.csproj'
+    arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Include="[Home.*]*" /p:Exclude="[*Tests]*"'
 - task: NuGetCommand@2
   inputs:
     command: 'pack'
@@ -22,37 +30,7 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-- task: Docker@2
+- task: PublishTestResults@2
   inputs:
-    containerRegistry: 'vs.alexsalisbury'
-    repository: 'shycloud'
-    command: 'buildAndPush'
-    Dockerfile: 'src/Shy.Cloud/Dockerfile'
-    buildContext: '$(Build.SourcesDirectory)/'
-    tags: |
-      $(Build.BuildId)
-      latest
-- task: Docker@2
-  inputs:
-    containerRegistry: 'vs.alexsalisbury'
-    repository: 'dotcom'
-    command: 'buildAndPush'
-    Dockerfile: 'src/Me.Com/Dockerfile'
-    buildContext: '$(Build.SourcesDirectory)/'
-    tags: |
-      $(Build.BuildId)
-      latest
-- task: Docker@2
-  inputs:
-    containerRegistry: 'Dockerhub'
-    repository: 'alexsalisbury/shycloud'
-    command: 'buildAndPush'
-    Dockerfile: 'src/Shy.Cloud/Dockerfile'
-    buildContext: '$(Build.SourcesDirectory)/'
-- task: Docker@2
-  inputs:
-    containerRegistry: 'Dockerhub'
-    repository: 'alexsalisbury/dotcom'
-    command: 'buildAndPush'
-    Dockerfile: 'src/Me.Com/Dockerfile'
-    buildContext: '$(Build.SourcesDirectory)/'
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/*.trx'
