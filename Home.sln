@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.dockerignore = .dockerignore
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		codecov.ps1 = codecov.ps1
 		dockerNotes.txt = dockerNotes.txt
 		Pipeline.Docker.yaml = Pipeline.Docker.yaml
 		Pipeline.UWP.yaml = Pipeline.UWP.yaml
@@ -22,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Home.Core.DiscordBot", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shy.Cloud", "src\Shy.Cloud\Shy.Cloud.csproj", "{401FAECB-51E1-4A45-93CC-417555325EFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Home.Core.Tests", "test\Home.Core.Tests\Home.Core.Tests.csproj", "{41901B41-A9FF-443D-AAB5-09AE70DAF8DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Home.Core.Tests", "test\Home.Core.Tests\Home.Core.Tests.csproj", "{41901B41-A9FF-443D-AAB5-09AE70DAF8DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
