@@ -45,7 +45,7 @@ steps:
 
 - script: |
     mkdir .\reports
-    reportgenerator.exe -reports:$(System.DefaultWorkingDirectory)/TestResults/Coverage/*.xmll -targetdir:reports -reporttypes:"HTMLInline;HTMLChart"
+    reportgenerator.exe -reports:$(System.DefaultWorkingDirectory)/TestResults/Coverage/*.xml -targetdir:reports -reporttypes:"HTMLInline;HTMLChart"
   displayName: Create coverage reports in html format to be displayed in AzureDevOps
 - script: |
     reportgenerator.exe -reports:$(System.DefaultWorkingDirectory)/TestResults/Coverage/*.xml -targetdir:reports -reporttypes:"cobertura"
