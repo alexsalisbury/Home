@@ -23,7 +23,7 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'VSTest'
-    testResultsFiles: '*.trx'
+    testResultsFiles: '**/*.trx'
 - task: NuGetCommand@2
   inputs:
     command: 'pack'
@@ -34,7 +34,3 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-- task: PowerShell@2
-  inputs:
-    filePath: 'codecov.ps1'
-    arguments: '-token $(CODECOV_TOKEN)'
