@@ -19,11 +19,13 @@ steps:
   inputs:
     command: 'test'
     projects: '**/test/*.Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Include="[Home.*]*" /p:Exclude="[*Tests]*"'
-- task: PublishTestResults@2
+    arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertuba /p:Include="[Home.*]*" /p:Exclude="[*Tests]*"'
+- task: PublishCodeCoverageResults@1
   inputs:
-    testResultsFormat: 'VSTest'
-    testResultsFiles: '**/*.trx'
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '**/coverage.xml'
+    pathToSources: '$(System.DefaultWorkingDirectory)/src'
+
 - task: NuGetCommand@2
   inputs:
     command: 'pack'
