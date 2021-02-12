@@ -34,7 +34,7 @@
             return client;
         }
 
-        private static async Task<(string, string)> GetHeaderAsync(AzureSettings settings, X509Certificate2? cert)
+        private static async Task<(string, string)> GetHeaderAsync(AzureSettings settings, X509Certificate2 cert)
         {
             //cert = cert ?? ReadCert();
 

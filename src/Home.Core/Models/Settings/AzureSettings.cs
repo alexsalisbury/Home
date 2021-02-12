@@ -11,27 +11,27 @@
         public string Authority => $"https://login.microsoftonline.com/{this.TenantId}/";
 
         [DebuggerDisplay("SECRET")]
-        public string ShyCloudEndpoint { get; set; }
+        public string ShyCloudEndpoint { get; init; }
 
         [DebuggerDisplay("SECRET")]
-        public string ClientId { get; set; }
+        public string ClientId { get; init; }
         [DebuggerDisplay("SECRET")]
-        public string ClientSecret { get; set; }
+        public string ClientSecret { get; init; }
         [DebuggerDisplay("SECRET")]
-        public string KVToken { get; set; }
+        public string KVToken { get; init; }
         [DebuggerDisplay("SECRET")]
-        public string Instance { get; set; }
+        public string Instance { get; init; }
         [DebuggerDisplay("SECRET")]
-        public string Scope { get; set; }
+        public string Scope { get; init; }
         [DebuggerDisplay("SECRET")]
-        public string TenantId { get; set; }
+        public string TenantId { get; init; }
         [DebuggerDisplay("SECRET")]
-        public string VaultName { get; set; }
+        public string VaultName { get; init; }
         [DebuggerDisplay("SECRET")]
-        public string FunctionQueue { get; set; }
+        public string FunctionQueue { get; init; }
         [DebuggerDisplay("SECRET")]
-        public string ServiceBusConnectionString { get; set; }
+        public string ServiceBusConnectionString { get; init; }
         [DebuggerDisplay("SECRET")]
-        public string SelfQueue { get; set; }
+        public string SelfQueue { get; init; }
     }
 }

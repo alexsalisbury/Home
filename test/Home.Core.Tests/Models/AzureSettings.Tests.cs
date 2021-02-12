@@ -1,8 +1,6 @@
 namespace Home.Core.Tests
 {
-    using System;
     using Xunit;
-    using Home.Core.Models.Settings;
     using Home.Core.Tests.Generators;
 
     public class AzureSettings_Tests
