@@ -2,16 +2,60 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core?view=vsts
 
 pool:
-  vmImage: 'ubuntu-20.04'
+  vmImage: 'windows-latest'
   
 variables:
   buildConfiguration: 'Release'
   buildPlatform: 'Any CPU'
   solution: '**\Home.sln'
+  disable.coverage.autogenerate: 'true' # because we overwrite the coverage report generation
 
 steps:
+- task: UseDotNet@2
+  inputs:
+    version: '5.0.x'
+    includePreviewVersions: true
+- task: UseDotNet@2
+  inputs:
+    version: '3.1.x'
+    packageType: runtime
+- task: NuGetToolInstaller@1
+- task: DotNetCoreCLI@2
+  inputs:
+    command: custom
+    custom: tool
+    arguments: install dotnet-reportgenerator-globaltool -g
+  displayName: Install ReportGenerator tool
+- task: DotNetCoreCLI@2
+  inputs:
+    command: custom
+    custom: tool
+    arguments: install coverlet.console -g
+  displayName: Install Coverlet.Console tool
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: 'Home.sln'
+    arguments: '--configuration $(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
+    projects: '**/test/*.Tests/*.csproj'
+    arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Include="[Home.*]*" /p:Exclude="[*Tests]*"  /p:CoverletOutput=$(System.DefaultWorkingDirectory)/TestResults/Coverage/'
+
 - script: |
-    dotnet build Home.sln --configuration $(buildConfiguration)
+    mkdir .\reports
+    reportgenerator.exe -reports:$(System.DefaultWorkingDirectory)/TestResults/Coverage/*.xml -targetdir:reports -reporttypes:"HTMLInline;HTMLChart"
+  displayName: Create coverage reports in html format to be displayed in AzureDevOps
+- script: |
+    reportgenerator.exe -reports:$(System.DefaultWorkingDirectory)/TestResults/Coverage/*.xml -targetdir:reports -reporttypes:"cobertura"
+  displayName: Create coverage reports in xml format to be used for summary
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'cobertura'
+    summaryFileLocation: '$(system.defaultworkingdirectory)\reports\Cobertura.xml'
+    reportDirectory: '$(system.defaultworkingdirectory)\reports'
+
 - task: NuGetCommand@2
   inputs:
     command: 'pack'
@@ -22,37 +66,3 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-- task: Docker@2
-  inputs:
-    containerRegistry: 'vs.alexsalisbury'
-    repository: 'shycloud'
-    command: 'buildAndPush'
-    Dockerfile: 'src/Shy.Cloud/Dockerfile'
-    buildContext: '$(Build.SourcesDirectory)/'
-    tags: |
-      $(Build.BuildId)
-      latest
-- task: Docker@2
-  inputs:
-    containerRegistry: 'vs.alexsalisbury'
-    repository: 'dotcom'
-    command: 'buildAndPush'
-    Dockerfile: 'src/Me.Com/Dockerfile'
-    buildContext: '$(Build.SourcesDirectory)/'
-    tags: |
-      $(Build.BuildId)
-      latest
-- task: Docker@2
-  inputs:
-    containerRegistry: 'Dockerhub'
-    repository: 'alexsalisbury/shycloud'
-    command: 'buildAndPush'
-    Dockerfile: 'src/Shy.Cloud/Dockerfile'
-    buildContext: '$(Build.SourcesDirectory)/'
-- task: Docker@2
-  inputs:
-    containerRegistry: 'Dockerhub'
-    repository: 'alexsalisbury/dotcom'
-    command: 'buildAndPush'
-    Dockerfile: 'src/Me.Com/Dockerfile'
-    buildContext: '$(Build.SourcesDirectory)/'
