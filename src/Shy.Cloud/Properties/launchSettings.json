@@ -14,6 +14,7 @@
       "launchBrowser": true,
       "launchUrl": "explain",
       "environmentVariables": {
+        "SHY_CLOUD_ENV": "development",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },

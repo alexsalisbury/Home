@@ -21,7 +21,7 @@
 
         public async Task<bool> EnsureAsync(IChannelInfo info)
         {
-            using (DbConnection dbConnection = (DbConnection)Connection)
+            using (var dbConnection = Connection)
             {
                 string insertProcName = "sb_EnsureDiscordChannel";
                 var k = new { info.GuildId, info.Id, info.Name };
@@ -35,7 +35,7 @@
 
         public async Task<IQueryable<IChannelInfo>> Fetch()
         {
-            using (DbConnection dbConnection = Connection)
+            using (var dbConnection = Connection)
             {
                 string fetchProcName = "sb_FetchDiscordChannels";
                 var result = await dbConnection.QueryAsync<ChannelInfoDto>(fetchProcName, commandType: CommandType.StoredProcedure);
