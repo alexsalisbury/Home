@@ -27,6 +27,21 @@
         public DateTimeOffset? StartedAt { get; init; }
         public DateTimeOffset? CompletedAt { get; init; }
         public DateTimeOffset? WaitUntil { get; init; }
+
+        public StageExecutionResult Start()
+        {
+            return this with { StartedAt = DateTimeOffset.UtcNow};
+        }
+
+        public StageExecutionResult Retry()
+        {
+            return this with { StartedAt = null, CompletedAt = null, RetriesRemaining = this.RetriesRemaining - 1 };
+        }
+
+        public StageExecutionResult MarkComplete(bool success)
+        {
+            return this with { IsComplete = true, CompletedAt = DateTimeOffset.UtcNow, Success = success };
+        }
     }
 
     //// TODO: Planning
