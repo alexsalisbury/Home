@@ -20,13 +20,17 @@
         public TestCommand() : base("")
         {
             result = CurrentResult;
+            Identifier = Guid.NewGuid();
+            Stage = 0;
         }
 
         public TestCommand(StageExecutionResult previous) : base("")
         {
             result = previous.Retry();
+            Identifier = Guid.NewGuid();
+            Stage = previous.NewStage;
         }
-
+    
         public override async Task<StageExecutionResult> ExecuteCommandStageAsync()
         {
             if (FailNext)

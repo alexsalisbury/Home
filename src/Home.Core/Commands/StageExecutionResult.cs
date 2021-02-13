@@ -40,7 +40,8 @@
 
         public StageExecutionResult MarkComplete(bool success)
         {
-            return this with { IsComplete = true, CompletedAt = DateTimeOffset.UtcNow, Success = success };
+            DateTimeOffset? waitUntil = success ? null : DateTimeOffset.UtcNow.AddMinutes(1);
+            return this with { IsComplete = true, CompletedAt = DateTimeOffset.UtcNow, Success = success, WaitUntil = waitUntil };
         }
     }
 
