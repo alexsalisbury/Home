@@ -14,7 +14,7 @@
         protected IdentityClientTokenService(AzureSettings settings)
         {
             this.settings = settings;
-            this.scopes = new List<string>() { settings.Scope };
+            this.scopes = settings == null ? new List<string>() : new List<string>() { settings.Scope } ;
         }
 
         public async Task<string> GetTokenHeader()
