@@ -1,8 +1,8 @@
 ﻿namespace Home.Core.Tests.Mocks
 {
     using System.Data;
-    using Home.Core.Repositories;
     using System.Data.Common;
+    using Home.Core.Repositories;
 
     public class MockRepository : BaseRepository
     {
