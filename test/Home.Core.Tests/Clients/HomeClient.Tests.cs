@@ -2,6 +2,7 @@
 {
     using System.Threading.Tasks;
     using Xunit;
+    using Home.Core.Models.Settings;
     using Home.Core.Tests.Mocks;
 
     public class HomeClient_Tests
@@ -20,8 +21,12 @@
             var second = "Auth";
             var mts = new MockTokenService();
             mts.Result = $"{first} {second}";
+            var az = new AzureSettings()
+            {
+                Scope = "Test"
+            };
 
-            var mc = new MockClient(null, mts);
+            var mc = new MockClient(az, mts);
             Assert.NotNull(mc);
             var h = await mc.WrappedGetClientAsync();
             Assert.NotNull(h);

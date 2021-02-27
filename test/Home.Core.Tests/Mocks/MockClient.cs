@@ -3,6 +3,7 @@
     using System.Net.Http;
     using System.Threading.Tasks;
     using Home.Core.Clients;
+    using Home.Core.Interfaces;
     using Home.Core.Models.Settings;
 
     public class MockClient : HomeClient
@@ -12,7 +13,7 @@
 
         }
 
-        public MockClient(AzureSettings settings, MockTokenService tokenService) : base(settings, tokenService)
+        public MockClient(AzureSettings settings, IAcquireTokenService tokenService) : base(settings, tokenService)
         {
 
         }
