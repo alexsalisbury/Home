@@ -28,6 +28,10 @@
     <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
     <PackageReference Include="Serilog.Sinks.Seq" Version="5.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Home.Core.Windows\Home.Core.Windows.csproj" />
+  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Update="Microsoft.VCRTForwarders.140" Version="1.0.7" />
