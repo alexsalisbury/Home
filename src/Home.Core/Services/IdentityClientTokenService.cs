@@ -1,17 +1,17 @@
 ﻿namespace Home.Core.Services
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.Identity.Client;
     using Home.Core.Interfaces;
-    using Home.Core.Models.Settings;
-    using System.Collections.Generic;
+    using Home.Core.Interfaces.Settings;
 
     public abstract class IdentityClientTokenService : IAcquireTokenService
     {
-        protected AzureSettings settings;
+        protected IAzureSettings settings;
         protected List<string> scopes;
 
-        protected IdentityClientTokenService(AzureSettings settings)
+        protected IdentityClientTokenService(IAzureSettings settings)
         {
             this.settings = settings;
             this.scopes = settings == null ? new List<string>() : new List<string>() { settings.Scope } ;

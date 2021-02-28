@@ -4,16 +4,16 @@
     using System.Threading.Tasks;
     using Home.Core.Clients;
     using Home.Core.Interfaces;
-    using Home.Core.Models.Settings;
+    using Home.Core.Interfaces.Settings;
 
     public class MockClient : HomeClient
     {
-        public MockClient(AzureSettings settings) : base(settings, new MockTokenService())
+        public MockClient(IAzureSettings settings) : base(settings, new MockTokenService())
         {
 
         }
 
-        public MockClient(AzureSettings settings, IAcquireTokenService tokenService) : base(settings, tokenService)
+        public MockClient(IAzureSettings settings, IAcquireTokenService tokenService) : base(settings, tokenService)
         {
 
         }

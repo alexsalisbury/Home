@@ -9,7 +9,7 @@
     using Home.Core.Clients;
     using Home.Core.DiscordBot.Interfaces.Models;
     using Home.Core.DiscordBot.Models.Dtos;
-    using Home.Core.Models.Settings;
+    using Home.Core.Interfaces.Settings;
     using Home.Core.Services;
 
     /// <summary>
@@ -17,7 +17,7 @@
     /// </summary>
     public class ShyCloudClient : HomeClient
     {
-        public ShyCloudClient(AzureSettings settings) : base(settings, new ClientSecretTokenService(settings))
+        public ShyCloudClient(IAzureSettings settings) : base(settings, new ClientSecretTokenService(settings))
         {
         }
 

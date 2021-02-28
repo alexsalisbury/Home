@@ -2,11 +2,11 @@
 {
     using System;
     using Microsoft.Identity.Client;
-    using Home.Core.Models.Settings;
+    using Home.Core.Interfaces.Settings;
 
     public class ClientSecretTokenService : IdentityClientTokenService
     {
-        public ClientSecretTokenService(AzureSettings settings) : base(settings)
+        public ClientSecretTokenService(IAzureSettings settings) : base(settings)
         {
         }
 

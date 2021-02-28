@@ -1,8 +1,9 @@
 ﻿namespace Home.Core.Models.Settings
 {
     using System.Diagnostics;
+    using Home.Core.Interfaces.Settings;
 
-    public record AzureSettings
+    public record AzureSettings : IAzureSettings
     {
         /// <summary>
         /// The sts authority for this app.
