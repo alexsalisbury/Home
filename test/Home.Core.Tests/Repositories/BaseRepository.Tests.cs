@@ -2,7 +2,7 @@
 {
     using System.Data;
     using Xunit;
-    using Home.Core.Tests.Mocks;
+    using Home.Test.Core.Mocks;
 
     public class BaseRepository_Tests
     {

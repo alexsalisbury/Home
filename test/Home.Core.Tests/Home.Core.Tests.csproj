@@ -25,5 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Home.Core\Home.Core.csproj" />
+    <ProjectReference Include="..\Home.Test.Core\Home.Test.Core.csproj" />
   </ItemGroup>
 </Project>
