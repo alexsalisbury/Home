@@ -3,21 +3,21 @@
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
-    using Home.Core.Models.Settings;
     using Home.Core.Interfaces;
+    using Home.Core.Interfaces.Settings;
 
     public abstract class HomeClient
     {
-        protected AzureSettings settings;
+        protected IAzureSettings settings;
         protected IAcquireTokenService tokenService;
 
-        protected HomeClient(AzureSettings settings, IAcquireTokenService tokenService)
+        protected HomeClient(IAzureSettings settings, IAcquireTokenService tokenService)
         {
             this.settings = settings;
             this.tokenService = tokenService;
         }
 
-        protected async Task<HttpClient> GetClientAsync(AzureSettings settings)
+        protected async Task<HttpClient> GetClientAsync(IAzureSettings settings)
         {
             HttpClient client = HttpClientFactory.Create();
             var (scheme, parameter) = await GetHeaderAsync();
