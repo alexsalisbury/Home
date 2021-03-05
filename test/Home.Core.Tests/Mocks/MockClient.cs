@@ -8,12 +8,12 @@
 
     public class MockClient : HomeClient
     {
-        public MockClient(IAzureSettings settings) : base(settings, new MockTokenService())
+        public MockClient(IAzureSettings settings) : base(settings, new MockTokenService(), new TestHttpMessageHandler())
         {
 
         }
 
-        public MockClient(IAzureSettings settings, IAcquireTokenService tokenService) : base(settings, tokenService)
+        public MockClient(IAzureSettings settings, IAcquireTokenService tokenService, HttpMessageHandler handler = null) : base(settings, tokenService, handler)
         {
 
         }

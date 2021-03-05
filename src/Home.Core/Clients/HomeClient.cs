@@ -10,8 +10,9 @@
     {
         protected IAzureSettings settings;
         protected IAcquireTokenService tokenService;
+        protected HttpMessageHandler handler;
 
-        protected HomeClient(IAzureSettings settings, IAcquireTokenService tokenService)
+        protected HomeClient(IAzureSettings settings, IAcquireTokenService tokenService, HttpMessageHandler handler = null)
         {
             this.settings = settings;
             this.tokenService = tokenService;
@@ -19,7 +20,7 @@
 
         protected async Task<HttpClient> GetClientAsync(IAzureSettings settings)
         {
-            HttpClient client = HttpClientFactory.Create();
+            HttpClient client = handler == null ? HttpClientFactory.Create(): HttpClientFactory.Create(handler);
             var (scheme, parameter) = await GetHeaderAsync();
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(scheme, parameter);
