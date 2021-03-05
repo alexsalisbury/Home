@@ -11,13 +11,18 @@
     using Home.Core.DiscordBot.Models.Dtos;
     using Home.Core.Interfaces.Settings;
     using Home.Core.Services;
+    using Home.Core.Interfaces;
 
     /// <summary>
     /// https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-v2-netcore-daemon
     /// </summary>
     public class ShyCloudClient : HomeClient
     {
-        public ShyCloudClient(IAzureSettings settings) : base(settings, new ClientSecretTokenService(settings))
+        public ShyCloudClient(IAzureSettings settings, HttpMessageHandler handler = null) : base(settings, new ClientSecretTokenService(settings), handler)
+        {
+        }
+
+        public ShyCloudClient(IAzureSettings settings, IAcquireTokenService tokenService, HttpMessageHandler handler = null) : base(settings, tokenService, handler)
         {
         }
 
