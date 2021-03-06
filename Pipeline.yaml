@@ -40,7 +40,7 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
-    projects: '**/test/*.Tests/*.csproj'
+    projects: '**/Home.sln'
     arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Include="[Home.*]*" /p:Exclude="[*Test*]*"  /p:CoverletOutput=$(System.DefaultWorkingDirectory)/TestResults/Coverage/'
 
 - script: |
