@@ -1,13 +1,9 @@
 ﻿namespace Home.Core.DiscordBot.Interfaces.Models
 {
-    using System.Collections.Generic;
+    using Home.Core.Interfaces.Models;
 
-    public interface IExplainable
+    public interface IExplainable : IShyEntity
     {
-        public static IEnumerable<IExplainable> EmptyList => EmptyListCache;
-        private static IEnumerable<IExplainable> EmptyListCache = new List<IExplainable>();
-
-        int ShyId { get; }
         string Subject { get; }
         string Explanation { get; }
     }
