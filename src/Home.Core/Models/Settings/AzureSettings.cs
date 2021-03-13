@@ -13,7 +13,6 @@
 
         [DebuggerDisplay("SECRET")]
         public string ShyCloudEndpoint { get; init; }
-
         [DebuggerDisplay("SECRET")]
         public string ClientId { get; init; }
         [DebuggerDisplay("SECRET")]
