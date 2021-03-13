@@ -7,12 +7,7 @@
     /// </summary>
     public interface IAzureSettings
     {
-        /// <summary>
-        /// The sts authority for this app.
-        /// </summary>
-        [DebuggerDisplay("SECRET")]
-        string Authority => $"https://login.microsoftonline.com/{this.TenantId}/";
-
+        string Authority { get; }
         string ShyCloudEndpoint { get; init; }
 
         /// <summary>
