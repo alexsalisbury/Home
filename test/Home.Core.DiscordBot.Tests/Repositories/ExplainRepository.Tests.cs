@@ -30,7 +30,7 @@
             var connection = new Mock<DbConnection>();
             connection.SetupDapperAsync(c => c.QueryAsync<ExplainableDto>(It.IsAny<string>(), null, null, null, null)).ReturnsAsync(expected);
 
-            var result = await er.Fetch();
+            var result = await er.FetchAsync();
             Assert.NotNull(result);
             Assert.Equal(typeof(ExplainableDto), result.First().GetType());
         }
@@ -44,7 +44,7 @@
             var connection = new Mock<DbConnection>();
             connection.SetupDapperAsync(c => c.QueryAsync<ExplainableDto>(It.IsAny<string>(), null, null, null, null)).ReturnsAsync(expected);
 
-            var result = await er.Fetch();
+            var result = await er.FetchAsync();
             Assert.NotNull(result);
             Assert.Equal(typeof(ExplainableDto), result.First().GetType());
         }
@@ -59,7 +59,7 @@
             var connection = new Mock<DbConnection>();
             connection.SetupDapperAsync(c => c.QueryAsync<ExplainableDto>(It.IsAny<string>(), null, null, null, null)).ReturnsAsync(expected);
 
-            var result = await er.Fetch(id);
+            var result = await er.FetchAsync(id);
             Assert.NotNull(result);
             Assert.Equal(typeof(ExplainableDto), result.GetType());
         }
@@ -74,7 +74,7 @@
             var connection = new Mock<DbConnection>();
             connection.SetupDapperAsync(c => c.QueryAsync<ExplainableDto>(It.IsAny<string>(), null, null, null, null)).ReturnsAsync(expected);
 
-            var result = await er.Fetch(id);
+            var result = await er.FetchAsync(id);
             Assert.Null(result);
         }
 
@@ -88,7 +88,7 @@
             var connection = new Mock<DbConnection>();
             connection.SetupDapperAsync(c => c.QueryAsync<ExplainableDto>(It.IsAny<string>(), null, null, null, null)).ReturnsAsync(expected);
 
-            var result = await er.Fetch(id);
+            var result = await er.FetchAsync(id);
             Assert.Null(result);
         }
     }

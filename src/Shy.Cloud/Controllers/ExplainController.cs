@@ -23,7 +23,7 @@
         [AllowAnonymous]
         public async Task<IActionResult> Get()
         {
-            var value = await repo.Fetch();
+            var value = await repo.FetchAsync();
             Log.Information($"Getting {value.Count()} Explains.");
             return new JsonResult(value);
         }

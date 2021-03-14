@@ -18,15 +18,19 @@
         public Task<bool> EnsureAsync(IUserInfo record)
         {
             return Task.FromResult(false);
+            //string procName = "tbd";
+            //var p = new { record.Id, record.Name };
+
+            //return await EnsureAsync(procName, p);
         }
 
-        public Task<IQueryable<IUserInfo>> Fetch()
+        public Task<IQueryable<IUserInfo>> FetchAsync()
         {
-            var result = new List<UserInfoDto>();
-            return Task.FromResult(result.AsQueryable<IUserInfo>());
+            string procName = "";
+            return FetchAsync<IUserInfo>(procName);
         }
 
-        public Task<IUserInfo> Fetch(ulong id)
+        public Task<IUserInfo> FetchAsync(ulong id)
         {
             return null;
         }

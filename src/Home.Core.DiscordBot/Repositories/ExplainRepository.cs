@@ -57,17 +57,17 @@
             }
         }
 
-        public Task<IQueryable<IExplainable>> Fetch()
+        public Task<IQueryable<IExplainable>> FetchAsync()
         {
             return Task.FromResult(DefaultCommands.AsQueryable<IExplainable>());
         }
 
-        public Task<IExplainable> Fetch(ulong id)
+        public Task<IExplainable> FetchAsync(ulong id)
         {
             return Task.FromResult(DefaultCommands.FirstOrDefault<IExplainable>(c => c.ShyId == (int)id));
         }
 
-        public Task<IExplainable> Fetch(int id)
+        public Task<IExplainable> FetchAsync(int id)
         {
             return Task.FromResult(DefaultCommands.FirstOrDefault<IExplainable>(c => c.ShyId == (int)id));
         }

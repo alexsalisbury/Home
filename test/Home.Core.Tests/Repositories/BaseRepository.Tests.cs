@@ -30,7 +30,7 @@
         {
             var mr = new MockRepository();
             var conn = mr.GetConnection();
-            mr.Connection = null;
+            mr.SetConnection(null);
             var conn2 = mr.GetConnection();
             Assert.IsAssignableFrom(typeof(IDbConnection), conn2);
             Assert.NotSame(conn, conn2);
@@ -41,9 +41,9 @@
         {
             var mr = new MockRepository();
             var conn = mr.GetConnection();
-            mr.Connection = null;
+            mr.SetConnection(null);
             var conn2 = mr.GetConnection();
-            mr.Connection = conn;
+            mr.SetConnection(conn);
             Assert.Same(conn, mr.GetConnection());
             Assert.NotSame(conn, conn2);
         }
