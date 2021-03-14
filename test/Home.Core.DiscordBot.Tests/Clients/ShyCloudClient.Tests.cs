@@ -7,10 +7,11 @@
     using Newtonsoft.Json;
     using Xunit;
     using Home.Core.DiscordBot.Clients;
-    using Home.Core.DiscordBot.Interfaces.Models;
     using Home.Core.DiscordBot.Models.Dtos;
-    using Home.Core.Tests.Mocks;
+    using Home.Core.DiscordBot.Repositories;
+    using Home.Core.Interfaces.Models;
     using Home.Core.Models.Settings;
+    using Home.Core.Tests.Mocks;
 
     public class HomeClient_Tests
     {
@@ -22,7 +23,7 @@
         }
 
         [Fact]
-        public async Task PopulatedClientTest()
+        public void PopulatedClientTest()
         {
             var (settings, mts, handler) = GetDefaultParams();
             var scc = new ShyCloudClient(settings, mts, handler);
@@ -54,7 +55,7 @@
             var (settings, mts, handler) = GetDefaultParams();
             var scc = new ShyCloudClient(settings, mts, handler);
 
-            List<ExplainableDto> result = GetResultSet(1);
+            var result = GetResultSet(1);
             HttpResponseMessage response = MakeExplainableResponse(HttpStatusCode.OK, result);
             handler.SetExpectedResponse(response);
 
@@ -74,7 +75,7 @@
             var (settings, mts, handler) = GetDefaultParams();
             var scc = new ShyCloudClient(settings, mts, handler);
 
-            List<ExplainableDto> result = GetResultSet(2);
+            var result = GetResultSet(2);
             HttpResponseMessage response = MakeExplainableResponse(HttpStatusCode.OK, result);
             handler.SetExpectedResponse(response);
 
@@ -87,9 +88,28 @@
             Assert.Equal(104, con.Length); // only check.
         }
 
+        [Fact]
+        public async Task FetchExplainablesDefaultsTest()
+        {
+            var (settings, mts, handler) = GetDefaultParams();
+            var scc = new ShyCloudClient(settings, mts, handler);
+
+            HttpResponseMessage response = MakeExplainableResponse(HttpStatusCode.OK, ExplainRepository.DefaultCommands);
+            handler.SetExpectedResponse(response);
+
+            var actualResponse = await scc?.FetchExplainablesAsync();
+
+            Assert.NotNull(actualResponse);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var conjson = await response.Content.ReadAsStringAsync();
+            var content = JsonConvert.DeserializeObject<List<ExplainableDto>>(conjson);
+            Assert.Equal(5, content.Count);
+        }
+
         private static HttpResponseMessage MakeExplainableResponse(HttpStatusCode code, List<ExplainableDto> resultList = null)
         {
-            var content = JsonConvert.SerializeObject(resultList ?? IExplainable.EmptyList);
+            var content = JsonConvert.SerializeObject(resultList ?? IShyEntity.EmptyList);
 
             return new HttpResponseMessage()
             {

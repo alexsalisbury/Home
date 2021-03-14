@@ -13,41 +13,42 @@
     /// </summary>
     public class ExplainRepository : IExplainRepository
     {
-        public static IList<IExplainable> Commands = new List<IExplainable>();
+        // This is temporary. This set will move to test code when this is no longer from static list.
+        public static List<ExplainableDto> DefaultCommands = new List<ExplainableDto>();
 
         static ExplainRepository()
         {
-            if (Commands.Count == 0)
+            if (DefaultCommands.Count == 0)
             {
-                Commands.Add(new ExplainableDto()
+                DefaultCommands.Add(new ExplainableDto()
                 {
                     ShyId = 1,
                     Subject = "explain",
                     Explanation = "The explain command will explain stuff to you. It's cool. Use '!explain list' to get current commands."
                 });
 
-                Commands.Add(new ExplainableDto()
+                DefaultCommands.Add(new ExplainableDto()
                 {
                     ShyId = 2,
                     Subject = "list",
                     Explanation = "Known commands: 'explain', 'list'. That's it. Ok, yes, some secret commands exist. That's all I can say. Sorry. I promise. 😖"
                 });
 
-                Commands.Add(new ExplainableDto()
+                DefaultCommands.Add(new ExplainableDto()
                 {
                     ShyId = 1001,
                     Subject = "yourself",
                     Explanation = "You're not my supervisor!"
                 });
 
-                Commands.Add(new ExplainableDto()
+                DefaultCommands.Add(new ExplainableDto()
                 {
                     ShyId = 21001,
                     Subject = "democracy",
                     Explanation = "The democracy module acts as a virtual congress. Work is in progress."
                 });
 
-                Commands.Add(new ExplainableDto()
+                DefaultCommands.Add(new ExplainableDto()
                 {
                     ShyId = 21002,
                     Subject = "checkquorum",
@@ -58,17 +59,17 @@
 
         public Task<IQueryable<IExplainable>> Fetch()
         {
-            return Task.FromResult(Commands.AsQueryable());
+            return Task.FromResult(DefaultCommands.AsQueryable<IExplainable>());
         }
 
         public Task<IExplainable> Fetch(ulong id)
         {
-            return Task.FromResult(Commands.FirstOrDefault(c => c.ShyId == (int)id));
+            return Task.FromResult(DefaultCommands.FirstOrDefault<IExplainable>(c => c.ShyId == (int)id));
         }
 
         public Task<IExplainable> Fetch(int id)
         {
-            return Task.FromResult(Commands.FirstOrDefault(c => c.ShyId == (int)id));
+            return Task.FromResult(DefaultCommands.FirstOrDefault<IExplainable>(c => c.ShyId == (int)id));
         }
     }
 }
