@@ -2,6 +2,9 @@
 {
     using System.Data;
     using System.Data.SqlClient;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Dapper;
 
     public abstract class BaseRepository
     {
@@ -13,7 +16,7 @@
             this.ConnectionString = connstr;
         }
 
-        public IDbConnection Connection
+        protected IDbConnection Connection
         {
             get
             {
@@ -28,6 +31,25 @@
             set
             {
                 this.conn = value;
+            }
+        }
+
+        protected async Task EnsureAsync(string procName, object param = null)
+        {
+            using (var dbConnection = Connection)
+            {
+                dbConnection.Open();
+                await dbConnection.ExecuteAsync(procName, param, commandType: CommandType.StoredProcedure);
+               // Log.Information($"Ensure completed: {procName}:{param}");
+            }
+        }
+
+        protected async Task<IQueryable<T>> FetchAsync<T>(string fetchProcName)
+        {
+            using (var dbConnection = Connection)
+            {
+                var result = await dbConnection.QueryAsync<T>(fetchProcName, commandType: CommandType.StoredProcedure);
+                return result.AsQueryable();
             }
         }
     }

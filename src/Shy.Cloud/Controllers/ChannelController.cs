@@ -23,7 +23,7 @@
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var value = await repo.Fetch();
+            var value = await repo.FetchAsync();
             Log.Information("Getting {value} Channels.", value.Count());
             return new JsonResult(value);
         }
@@ -32,7 +32,7 @@
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(ulong id)
         {
-            var value = await repo.Fetch(id);
+            var value = await repo.FetchAsync(id);
             var findstatus = value == null ? "unfound" : "found";
             Log.Information("Getting {findstatus} Channel {channelId}.", findstatus, id);
             return new JsonResult(value);

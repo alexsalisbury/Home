@@ -5,15 +5,14 @@
     /// <summary>
     /// Represents a store that can delete records.
     /// </summary>
-    /// <typeparam name="T">The type of record</typeparam>
-    public interface IDeletable<T>
+    /// <typeparam name="U">The type of the record's id</typeparam>
+    public interface IDeletable<U>
     {
         /// <summary>
         /// Delete a single record.
         /// </summary>
         /// <param name="id">the id to delete</param>
         /// <returns>The deleted object?</returns>
-        Task Delete(T id);
-        //        Task<T> Delete(ulong id);
+        Task DeleteAsync(U id);
     }
 }

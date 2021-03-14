@@ -14,6 +14,10 @@
         public Task<bool> EnsureAsync(IMessageInfo record)
         {
             return Task.FromResult(false);
+            //string procName = "tbd";
+            //var p = new { record.Id, record.Name };
+
+            //return await EnsureAsync(procName, p);
         }
     }
 }

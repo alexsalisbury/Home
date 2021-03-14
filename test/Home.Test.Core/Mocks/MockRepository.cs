@@ -19,7 +19,7 @@
             return this.Connection;
         }
 
-        public void SetConnection(DbConnection conn)
+        public void SetConnection(IDbConnection conn)
         {
             this.Connection = conn;
         }

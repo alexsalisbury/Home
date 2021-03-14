@@ -21,29 +21,20 @@
 
         public async Task<bool> EnsureAsync(IChannelInfo info)
         {
-            using (var dbConnection = Connection)
-            {
-                string insertProcName = "sb_EnsureDiscordChannel";
-                var k = new { info.GuildId, info.Id, info.Name };
+            string insertProcName = "sb_EnsureDiscordChannel";
+            var p = new { info.GuildId, info.Id, info.Name };
 
-                dbConnection.Open();
-                await dbConnection.ExecuteAsync(insertProcName, k, commandType: CommandType.StoredProcedure);
-                Log.Information($"Ensure completed: {insertProcName}:{k}");
-                return true;
-            }
+            await EnsureAsync(insertProcName, p);
+            return true;
         }
 
-        public async Task<IQueryable<IChannelInfo>> Fetch()
+        public async Task<IQueryable<IChannelInfo>> FetchAsync()
         {
-            using (var dbConnection = Connection)
-            {
-                string fetchProcName = "sb_FetchDiscordChannels";
-                var result = await dbConnection.QueryAsync<ChannelInfoDto>(fetchProcName, commandType: CommandType.StoredProcedure);
-                return result.AsQueryable();
-            }
+            string fetchProcName = "sb_FetchDiscordChannels";
+            return await FetchAsync<IChannelInfo>(fetchProcName);
         }
 
-        public Task<IChannelInfo> Fetch(ulong id)
+        public Task<IChannelInfo> FetchAsync(ulong id)
         {
             return null;
         }
