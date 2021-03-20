@@ -2,15 +2,17 @@
 {
     using System.Data;
     using System.Data.Common;
+    using System.Linq;
+    using System.Threading.Tasks;
     using Home.Core.Repositories;
 
-    public class MockRepository : BaseRepository
+    public class MockHomeRepository : BaseRepository
     {
-        public MockRepository() : base("")
+        public MockHomeRepository() : base("")
         {
         }
 
-        public MockRepository(string connstr) : base(connstr)
+        public MockHomeRepository(string connstr) : base(connstr)
         {
         }
 
@@ -22,6 +24,11 @@
         public void SetConnection(IDbConnection conn)
         {
             this.Connection = conn;
+        }
+
+        public async Task<IQueryable<string>> FetchAsync(string procName)
+        {
+            return await base.FetchAsync<string>(procName);
         }
     }
 }
