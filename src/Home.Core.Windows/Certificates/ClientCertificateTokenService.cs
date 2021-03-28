@@ -1,4 +1,4 @@
-﻿namespace Home.Core.Windows.Services
+﻿namespace Home.Core.Windows.Certificates
 {
     using System;
     using System.Security.Cryptography.X509Certificates;
