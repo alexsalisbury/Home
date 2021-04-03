@@ -39,9 +39,9 @@
             return await FetchAsync<ChannelInfoDto>(fetchProcName);
         }
 
-        public Task<IChannelInfo> FetchAsync(ulong id)
+        public async Task<IChannelInfo> FetchAsync(ulong id)
         {
-            return null;
+            return (await FetchAsync())?.FirstOrDefault(ci => ci.Id == id);
         }
 
         //public Task<IChannelInfo> Patch(ulong id, IChannelInfo patch)
