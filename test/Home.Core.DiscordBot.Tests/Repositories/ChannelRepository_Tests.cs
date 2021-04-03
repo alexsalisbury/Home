@@ -22,6 +22,36 @@
         }
 
         [Fact]
+        public async Task EnsureTest()
+        {
+            int count = 1;
+            var expected = GetDefaults(count);
+
+            var connection = new Mock<DbConnection>();
+            connection.SetupDapperAsync(c => c.ExecuteAsync(It.IsAny<string>(), null, null, null, null));
+            // connection.SetupDapperAsync(c => c.QueryAsync<ChannelInfoDto>(It.IsAny<string>(), null, null, null, null)).ReturnsAsync(expected);
+
+            var cr = new ChannelRepository(connection.Object);
+            var result = await cr.EnsureAsync(expected.First());
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task EnsureNullTest()
+        {
+            int count = 0;
+            var expected = GetDefaults(count);
+
+            var connection = new Mock<DbConnection>();
+            connection.SetupDapperAsync(c => c.ExecuteAsync(It.IsAny<string>(), null, null, null, null));
+            // connection.SetupDapperAsync(c => c.QueryAsync<ChannelInfoDto>(It.IsAny<string>(), null, null, null, null)).ReturnsAsync(expected);
+
+            var cr = new ChannelRepository(connection.Object);
+            var result = await cr.EnsureAsync(expected.FirstOrDefault());
+            Assert.False(result);
+        }
+
+        [Fact]
         public async Task FetchSingleTest()
         {
             int count = 1;
