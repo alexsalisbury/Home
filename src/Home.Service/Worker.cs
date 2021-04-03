@@ -11,6 +11,8 @@ namespace Home.Service
     using Home.Core.DiscordBot.Services;
     using Home.Core.Models.Settings;
     using Home.Core.DiscordBot.Clients;
+    using Home.Core.DiscordBot.Interfaces.Clients;
+    using Home.Core.DiscordBot.Interfaces.Services;
 
     public class Worker : BackgroundService
     {
@@ -20,7 +22,7 @@ namespace Home.Service
         public static BotSettings ShyBotSettings { get; internal set; }
         public static AzureSettings AzureSettings { get; internal set; }
         private static IList<ServerInfo> EmptyServerSet = new List<ServerInfo>(new List<ServerInfo>());
-        private DiscordService DiscordManager;
+        private IMockableDiscordService DiscordManager;
 
         public Worker()
         {
