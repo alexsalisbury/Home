@@ -30,15 +30,15 @@
             //return await EnsureAsync(procName, p);
         }
 
-        public Task<IQueryable<IUserInfo>> FetchAsync()
+        public async Task<IQueryable<IUserInfo>> FetchAsync()
         {
             string procName = "";
-            return FetchAsync<IUserInfo>(procName);
+            return await FetchAsync<UserInfoDto>(procName);
         }
 
-        public Task<IUserInfo> FetchAsync(ulong id)
+        public async Task<IUserInfo> FetchAsync(ulong id)
         {
-            return null;
+            return (await FetchAsync())?.FirstOrDefault(ci => ci.Id == id);
         }
     }
 }
