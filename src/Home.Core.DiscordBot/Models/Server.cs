@@ -1,17 +1,12 @@
 ﻿namespace Home.Core.DiscordBot.Models
 {
-    using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using System.Threading;
     using System.Threading.Tasks;
     using Discord.WebSocket;
     using Serilog;
-    using Home.Core.Commands;
-    using Home.Core.DiscordBot.Commands;
-    using Home.Core.DiscordBot.Interfaces.Clients;
     using Home.Core.DiscordBot.Models.Settings;
     using Home.Core.DiscordBot.Services;
 

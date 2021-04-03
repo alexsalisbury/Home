@@ -1,12 +1,11 @@
 ﻿namespace Home.Core.DiscordBot.Models
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Discord.WebSocket;
     using Home.Core.DiscordBot.Interfaces.Models;
+    using Home.Core.Interfaces.Models;
     using Home.Core.DiscordBot.Models.Dtos;
     using Home.Core.DiscordBot.Models.Settings;
-    using Home.Core.Interfaces.Models;
 
     /// <summary>
     /// Represents a Channel on a Discord Server.

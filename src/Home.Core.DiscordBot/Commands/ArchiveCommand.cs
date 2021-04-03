@@ -1,14 +1,9 @@
 ﻿namespace Home.Core.DiscordBot.Commands
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
-    using Discord;
     using Serilog;
     using Home.Core.Commands;
-    using Home.Core.DiscordBot.Interfaces.Services;
-    using Home.Core.DiscordBot.Models;
 
     public record ArchiveCommand : HomeCommand
     {

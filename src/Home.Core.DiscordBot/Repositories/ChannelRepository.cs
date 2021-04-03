@@ -2,15 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Data;
-    using System.Data.Common;
     using System.Linq;
     using System.Threading.Tasks;
-    using Dapper;
     using Home.Core.DiscordBot.Interfaces.Models;
     using Home.Core.DiscordBot.Interfaces.Repositories;
     using Home.Core.DiscordBot.Models.Dtos;
     using Home.Core.Repositories;
-    using Serilog;
 
     public class ChannelRepository : BaseRepository, IChannelRepository
     {
