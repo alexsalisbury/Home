@@ -11,30 +11,7 @@
     {
         public static void WriteToSerilog(this LogMessage message)
         {
-            var sev = message.Severity;
-            LogEventLevel level;
-
-            switch (sev)
-            {
-                case LogSeverity.Critical:
-                    level = LogEventLevel.Fatal;
-                    break;
-                case LogSeverity.Error:
-                    level = LogEventLevel.Error;
-                    break;
-                case LogSeverity.Warning:
-                    level = LogEventLevel.Warning;
-                    break;
-                case LogSeverity.Verbose:
-                    level = LogEventLevel.Verbose;
-                    break;
-                case LogSeverity.Debug:
-                    level = LogEventLevel.Debug;
-                    break;
-                default:
-                    level = LogEventLevel.Information;
-                    break;
-            }
+            LogEventLevel level = message.Severity.GetSerilogEventLevel();
 
             if (message.Exception != null)
             {
