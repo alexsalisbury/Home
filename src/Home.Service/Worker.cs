@@ -47,8 +47,17 @@ namespace Home.Service
 
         private async Task StartupAsync()
         {
+            await Initialize();
+            DiscordManager = DiscordService.Service;
+
+            Log.Information("Running tasks");
+            await QueueStartupTasksAsync();
+        }
+
+        private static async Task Initialize()
+        {
             var cloud = new ShyCloudClient(AzureSettings);
-            await DiscordService.StartAsync(ShyBotSettings, cloud);
+            await DiscordService.StartAsync(ShyBotSettings);
 
             while (!DiscordService.IsConnected())
             {
@@ -57,18 +66,14 @@ namespace Home.Service
 
             await Task.Delay(2000);
             Log.Information("Go");
-
-            DiscordManager = DiscordService.Service;
-
-            Log.Information("Running tasks");
-            await QueueStartupTasksAsync();
         }
 
         private async Task QueueStartupTasksAsync()
         {
-            await DiscordManager.FetchConfigurationAsync();
-            await DiscordManager.SyncInfraAsync();
-            await DiscordManager.StartArchiveAsync();
+            await Task.CompletedTask;
+            //await DiscordManager.FetchConfigurationAsync();
+            //await DiscordManager.SyncInfraAsync();
+            //await DiscordManager.StartArchiveAsync();
         }
 
         private async Task QueueWaitingTasksAsync()

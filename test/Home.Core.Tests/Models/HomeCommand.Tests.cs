@@ -19,6 +19,17 @@
             var tc = new TestCommand();
             var result = await tc.ExecuteCommandStageAsync();
             Assert.NotNull(result);
+            Assert.False(result.IsComplete);
+            Assert.Equal(3, result.RetriesRemaining);
+        }
+
+        [Fact]
+        public async Task ExecuteTestCompleteCommand()
+        {
+            var tc = new TestCommand();
+            tc.CompleteNext = true;
+            var result = await tc.ExecuteCommandStageAsync();
+            Assert.NotNull(result);
             Assert.True(result.IsComplete);
             Assert.Equal(3, result.RetriesRemaining);
         }
@@ -29,11 +40,27 @@
             var tc = new TestCommand();
             tc.FailNext = true;
             var failResult = await tc.ExecuteCommandStageAsync();
+            Assert.Equal(2, failResult.RetriesRemaining);
             var tc2 = new TestCommand(failResult);
             var result = await tc2.ExecuteCommandStageAsync();
             Assert.NotNull(result);
+            Assert.False(result.IsComplete);
+            Assert.Equal(3, result.RetriesRemaining);
+        }
+
+        [Fact]
+        public async Task RetryCompleteTestCommand()
+        {
+            var tc = new TestCommand();
+            tc.FailNext = true;
+            var failResult = await tc.ExecuteCommandStageAsync();
+            Assert.Equal(2, failResult.RetriesRemaining);
+            var tc2 = new TestCommand(failResult);
+            tc2.CompleteNext = true;
+            var result = await tc2.ExecuteCommandStageAsync();
+            Assert.NotNull(result);
             Assert.True(result.IsComplete);
-            Assert.Equal(2, result.RetriesRemaining);
+            Assert.Equal(3, result.RetriesRemaining);
         }
     }
 }

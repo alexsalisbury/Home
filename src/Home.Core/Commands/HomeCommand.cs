@@ -2,22 +2,45 @@
 {
     using System;
     using System.Threading.Tasks;
+    using Serilog;
 
     public abstract record HomeCommand
     {
-        public Guid Identifier { get; init; }
-        public int Stage { get; init; }
+        protected static StageExecutionResult DefaultResult = new StageExecutionResult()
+        {
+            IsComplete = false,
+        };
+
 
         /// <summary>
         /// The command this represents. 
         /// </summary>
         public string Command { get; init; }
+        public Guid Identifier { get; init; }
+        public int Stage { get; init; }
 
         public HomeCommand(string command)
         {
             this.Command = command;
         }
 
-        public abstract Task<StageExecutionResult> ExecuteCommandStageAsync();
+        public async Task<StageExecutionResult> ExecuteCommandStageAsync()
+        {
+            DateTimeOffset start = DateTimeOffset.UtcNow;
+            DateTimeOffset? end = null;
+
+            StageExecutionResult result = await ExecuteStageAsync();
+
+            Log.Information("{command} executed stage {stage} with result {result}", Command, Stage, result);
+
+            if (result.IsComplete)
+            {
+                Log.Information("{command} complete.", Command);
+            }
+
+            return result;
+        }
+
+        protected abstract Task<StageExecutionResult> ExecuteStageAsync();
     }
 }

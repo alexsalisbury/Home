@@ -10,6 +10,8 @@ namespace Home.Service
     using Serilog;
     using Home.Core.DiscordBot.Models.Settings;
     using Home.Core.Models.Settings;
+    using Home.Core.DiscordBot.Services;
+    using Home.Core.DiscordBot.Interfaces.Services;
 
     public class Program
     {
@@ -33,6 +35,7 @@ namespace Home.Service
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<Worker>();
+                    services.AddSingleton<IDiscordService>((sp) => { return IDiscordService.GetDiscordService(); });
                 });
 
         private static IConfiguration LoadConfig()
