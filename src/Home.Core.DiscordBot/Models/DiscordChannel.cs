@@ -38,7 +38,7 @@
         {
             this.Channel = channel;
             this.Codeword = codeword;
-            this.Name = channel.Name;
+            this.Name = channel?.Name ?? "Unknown";
         }
 
         public async Task AddSettingsAsync(ChannelSettings settings)
