@@ -18,12 +18,12 @@
 
         ConnectionState IMockableDiscordClient.GetConnectionState()
         {
-            return IMockableDiscordClient.ClientWrapper.ConnectionState;
+            return IMockableDiscordClient.ClientWrapper?.ConnectionState ?? ConnectionState.Disconnected;
         }
 
         SocketGuild IMockableDiscordClient.LookupGuild(ulong serverId)
         {
-            return IMockableDiscordClient.ClientWrapper.GetGuild(serverId);
+            return IMockableDiscordClient.ClientWrapper?.GetGuild(serverId);
         }
     }
 }
