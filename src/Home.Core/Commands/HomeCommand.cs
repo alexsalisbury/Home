@@ -11,7 +11,6 @@
             IsComplete = false,
         };
 
-
         /// <summary>
         /// The command this represents. 
         /// </summary>
@@ -19,9 +18,10 @@
         public Guid Identifier { get; init; }
         public int Stage { get; init; }
 
-        public HomeCommand(string command)
+        public HomeCommand(string command, int stage)
         {
             this.Command = command;
+            this.Stage = stage;
         }
 
         public async Task<StageExecutionResult> ExecuteCommandStageAsync()

@@ -8,27 +8,23 @@
     {
         public bool FailNext { get; set; }
         public bool CompleteNext { get; set; }
+
         private int maxRetries = 3;
         private int retries;
 
-        public TestCommand() : base("")
+        public TestCommand() : base("", 0)
         {
             Identifier = Guid.NewGuid();
             Stage = 0;
             retries = 3;
         }
 
-        public TestCommand(StageExecutionResult previous) : base("")
+        public TestCommand(StageExecutionResult previous) : base("", 0)
         {
             Identifier = Guid.NewGuid();
             Stage = previous.NewStage;
             retries = previous.RetriesRemaining;
         }
-
-        //public override async Task<StageExecutionResult> ExecuteCommandStageAsync()
-        //{
-
-        //}
 
         protected override async Task<StageExecutionResult> ExecuteStageAsync()
         {

@@ -8,11 +8,12 @@
     public record ArchiveCommand : HomeCommand
     {
         public string ServerCodeword { get; init; }
+        public static (string, int) DefaultStage = ("Archive", 1);
 
-        public ArchiveCommand(string sc) : base("Archive")
+        public ArchiveCommand(string sc) : base(DefaultStage.Item1, DefaultStage.Item2)
         {
             this.ServerCodeword = sc;
-            this.Stage = 0;
+            this.Stage = 1;
         }
 
         protected async override Task<StageExecutionResult> ExecuteStageAsync()
