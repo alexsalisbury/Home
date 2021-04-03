@@ -1,6 +1,7 @@
 ﻿namespace Home.Core.DiscordBot.Repositories
 {
     using System.Collections.Generic;
+    using System.Data;
     using System.Linq;
     using System.Threading.Tasks;
     using Home.Core.Repositories;
@@ -11,6 +12,11 @@
     public class UserRepository : BaseRepository, IUserRepository
     {
         public UserRepository(string connstr) : base(connstr)
+        {
+
+        }
+
+        public UserRepository(IDbConnection conn) : base(conn)
         {
 
         }

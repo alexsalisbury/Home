@@ -1,5 +1,6 @@
 ﻿namespace Home.Core.DiscordBot.Repositories
 {
+    using System.Data;
     using System.Threading.Tasks;
     using Home.Core.Repositories;
     using Home.Core.DiscordBot.Interfaces.Models;
@@ -8,6 +9,11 @@
     public class MessageRepository : BaseRepository, IMessageRepository
     {
         public MessageRepository(string connstr) : base(connstr)
+        {
+
+        }
+
+        public MessageRepository(IDbConnection conn) : base(conn)
         {
 
         }

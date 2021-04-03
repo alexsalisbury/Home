@@ -19,6 +19,11 @@
 
         }
 
+        public ChannelRepository(IDbConnection conn) : base(conn)
+        {
+
+        }
+
         public async Task<bool> EnsureAsync(IChannelInfo info)
         {
             string insertProcName = "sb_EnsureDiscordChannel";
@@ -31,7 +36,7 @@
         public async Task<IQueryable<IChannelInfo>> FetchAsync()
         {
             string fetchProcName = "sb_FetchDiscordChannels";
-            return await FetchAsync<IChannelInfo>(fetchProcName);
+            return await FetchAsync<ChannelInfoDto>(fetchProcName);
         }
 
         public Task<IChannelInfo> FetchAsync(ulong id)
