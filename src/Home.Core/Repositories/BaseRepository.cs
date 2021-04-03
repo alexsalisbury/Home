@@ -16,6 +16,11 @@
             this.ConnectionString = connstr;
         }
 
+        protected BaseRepository(IDbConnection connection)
+        {
+            conn = connection;
+        }
+
         protected IDbConnection Connection
         {
             get

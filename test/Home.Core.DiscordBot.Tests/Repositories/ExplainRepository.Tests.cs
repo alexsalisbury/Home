@@ -11,6 +11,7 @@
     using Xunit;
     using Home.Core.DiscordBot.Models.Dtos;
     using Home.Core.DiscordBot.Repositories;
+    using Home.Core.DiscordBot.Interfaces.Models;
 
     public class ExplainRepository_Tests
     {
@@ -24,15 +25,17 @@
         [Fact]
         public async Task FetchTest()
         {
-            var expected = new[] { new ExplainableDto() };
+            var expected = new[] { new ExplainableDto() }; // Expected (count) should be 1.
             var er = new ExplainRepository();
 
             var connection = new Mock<DbConnection>();
             connection.SetupDapperAsync(c => c.QueryAsync<ExplainableDto>(It.IsAny<string>(), null, null, null, null)).ReturnsAsync(expected);
+            //er.SetConnection(connection);
 
             var result = await er.FetchAsync();
             Assert.NotNull(result);
             Assert.Equal(typeof(ExplainableDto), result.First().GetType());
+            Assert.Equal(5, result.Count()); //BUGBUG, hardcoded to default 5 for now. Expected (count) should be 1.
         }
 
         [Fact]
@@ -43,10 +46,12 @@
 
             var connection = new Mock<DbConnection>();
             connection.SetupDapperAsync(c => c.QueryAsync<ExplainableDto>(It.IsAny<string>(), null, null, null, null)).ReturnsAsync(expected);
+            // er.Connection = connection;
 
             var result = await er.FetchAsync();
             Assert.NotNull(result);
             Assert.Equal(typeof(ExplainableDto), result.First().GetType());
+            Assert.Equal(5, result.Count()); //BUGBUG, hardcoded to default 5 for now. Expected (count) should be 1.
         }
 
         [Fact]
@@ -58,6 +63,7 @@
 
             var connection = new Mock<DbConnection>();
             connection.SetupDapperAsync(c => c.QueryAsync<ExplainableDto>(It.IsAny<string>(), null, null, null, null)).ReturnsAsync(expected);
+            // er.Connection = connection;
 
             var result = await er.FetchAsync(id);
             Assert.NotNull(result);
@@ -73,6 +79,7 @@
 
             var connection = new Mock<DbConnection>();
             connection.SetupDapperAsync(c => c.QueryAsync<ExplainableDto>(It.IsAny<string>(), null, null, null, null)).ReturnsAsync(expected);
+            // er.Connection = connection;
 
             var result = await er.FetchAsync(id);
             Assert.Null(result);
