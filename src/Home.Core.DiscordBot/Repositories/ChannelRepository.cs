@@ -26,11 +26,16 @@
 
         public async Task<bool> EnsureAsync(IChannelInfo info)
         {
-            string insertProcName = "sb_EnsureDiscordChannel";
-            var p = new { info.GuildId, info.Id, info.Name };
+            if (info is not null)
+            {
+                string insertProcName = "sb_EnsureDiscordChannel";
+                var p = new { info.GuildId, info.Id, info.Name };
 
-            await EnsureAsync(insertProcName, p);
-            return true;
+                await EnsureAsync(insertProcName, p);
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<IQueryable<IChannelInfo>> FetchAsync()
