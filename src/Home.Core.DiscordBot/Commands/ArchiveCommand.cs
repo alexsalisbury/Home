@@ -10,11 +10,11 @@
     using Home.Core.DiscordBot.Interfaces.Services;
     using Home.Core.DiscordBot.Models;
 
-    internal record ArchiveCommand : HomeCommand
+    public record ArchiveCommand : HomeCommand
     {
         public string ServerCodeword { get; init; }
-        
-        internal ArchiveCommand(string sc) : base("Archive")
+
+        public ArchiveCommand(string sc) : base("Archive")
         {
             this.ServerCodeword = sc;
             this.Stage = 0;
