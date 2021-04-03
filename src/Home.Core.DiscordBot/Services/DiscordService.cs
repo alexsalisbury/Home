@@ -1,28 +1,21 @@
 ﻿namespace Home.Core.DiscordBot.Services
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Discord;
     using Discord.WebSocket;
     using Serilog;
-    using Serilog.Events;
     using Home.Core.DiscordBot.Clients;
-    using Home.Core.DiscordBot.Models;
     using Home.Core.DiscordBot.Models.Settings;
-    using Home.Core.DiscordBot.Models.Dtos;
-    using Home.Core.DiscordBot.Interfaces.Services;
     using Home.Core.DiscordBot.Interfaces.Clients;
 
-    public class DiscordService : IDiscordService
+    public class DiscordService : IMockableDiscordService
     {
-        public static DiscordService Service { get; private set; }
-        internal static DiscordSocketClient Client { get; private set; }
+        public static IMockableDiscordService Service { get; private set; }
+        public static bool IsConnected() => IMockableDiscordClient.IsConnected();
+        public static SocketGuild GetGuild(ulong serverId) => IMockableDiscordClient.GetGuild(serverId);
 
-        public static bool IsConnected() => Client.ConnectionState == ConnectionState.Connected;
-        public static SocketGuild GetGuild(ulong serverId) => Client.GetGuild(serverId);
-
+        internal static IMockableDiscordClient Client { get; private set; }
 
         public static async Task StartAsync(BotSettings settings)
         {
@@ -31,7 +24,11 @@
 
             var existing = Client;
             var discordToken = settings.DiscordToken ?? Environment.GetEnvironmentVariable("DiscordToken");
-            Client = Client ?? await CreateClient(discordToken);
+
+            if (existing == null)
+            {
+                Client = Client ?? await CreateDiscordClient(discordToken);
+            }    
 
             if (existing != Client)
             {
@@ -42,13 +39,22 @@
             await Service.StartAsync();
         }
 
-        internal static async Task<DiscordSocketClient> CreateClient(string discordToken, bool force = false)
+        public async Task HandleMessageAsync(SocketMessage arg)
         {
-            if (!force && Client != null)
-            {
-                return Client;
-            }
+        }
 
+        public Task StartAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static async Task<ProductionDiscordClient> CreateDiscordClient(string discordToken)
+        {
+            return new ProductionDiscordClient(await CreateSocketClient(discordToken));
+        }
+
+        internal static async Task<DiscordSocketClient> CreateSocketClient(string discordToken)
+        {
             Log.Information($"Creating a Discord client.");
             var client = new DiscordSocketClient();
             client.Log += WriteLog;
@@ -59,17 +65,12 @@
             // In this case, we are reading the token from usersecrets or an environment variable. 
             await client.LoginAsync(TokenType.Bot, discordToken);
             await client.StartAsync();
-            Client = client;
             return client;
         }
 
         private static async Task Client_MessageReceivedAsync(SocketMessage arg)
         {
-            await Service.HandleMessageAsync(arg);
-        }
-
-        public async Task HandleMessageAsync(SocketMessage arg)
-        {
+            //TODO: await Service.HandleMessageAsync(arg);
         }
 
         private static Task WriteLog(LogMessage message)
@@ -78,9 +79,9 @@
             return Task.CompletedTask;
         }
 
-
-        private async Task StartAsync()
+        Task IMockableDiscordService.StartAsync()
         {
+            throw new NotImplementedException();
         }
     }
 }
