@@ -22,9 +22,10 @@
         }
 
         [Fact]
-        public async Task FetchTest()
+        public async Task FetchSingleTest()
         {
-            var expected = GetDefaults();
+            int count = 1;
+            var expected = GetDefaults(count);
 
             var connection = new Mock<DbConnection>();
             connection.SetupDapperAsync(c => c.QueryAsync<ChannelInfoDto>(It.IsAny<string>(), null, null, null, null)).ReturnsAsync(expected);
@@ -33,13 +34,66 @@
             var result = await cr.FetchAsync();
             Assert.NotNull(result);
             Assert.Equal(typeof(ChannelInfoDto), result.First().GetType());
+            Assert.Equal(count, result.Count());
         }
 
-        private IEnumerable<ChannelInfoDto> GetDefaults()
+        [Fact]
+        public async Task FetchTest()
         {
-            var ci = ModelGenerator.GenerateChannelInfoDto();
+            int count = 3;
+            var expected = GetDefaults(count);
 
-            return new ChannelInfoDto[] { ci };
+            var connection = new Mock<DbConnection>();
+            connection.SetupDapperAsync(c => c.QueryAsync<ChannelInfoDto>(It.IsAny<string>(), null, null, null, null)).ReturnsAsync(expected);
+
+            var cr = new ChannelRepository(connection.Object);
+            var result = await cr.FetchAsync();
+            Assert.NotNull(result);
+            Assert.Equal(typeof(ChannelInfoDto), result.First().GetType());
+            Assert.Equal(count, result.Count());
+        }
+
+        [Fact]
+        public async Task FetchByIdTest()
+        {
+            int count = 3;
+            var expected = GetDefaults(count);
+            ulong id = expected.First().Id;
+
+            var connection = new Mock<DbConnection>();
+            connection.SetupDapperAsync(c => c.QueryAsync<ChannelInfoDto>(It.IsAny<string>(), null, null, null, null)).ReturnsAsync(expected);
+
+            var cr = new ChannelRepository(connection.Object);
+            var result = await cr.FetchAsync(id);
+            Assert.NotNull(result);
+            Assert.Equal(typeof(ChannelInfoDto), result.GetType());
+            Assert.Equal(id, result.Id);
+        }
+
+        [Fact]
+        public async Task FetchByIdNotFoundTest()
+        {
+            int count = 0;
+            var expected = GetDefaults(count);
+
+            var connection = new Mock<DbConnection>();
+            connection.SetupDapperAsync(c => c.QueryAsync<ChannelInfoDto>(It.IsAny<string>(), null, null, null, null)).ReturnsAsync(expected);
+
+            var cr = new ChannelRepository(connection.Object);
+            var result = await cr.FetchAsync(7);
+            Assert.Null(result);
+        }
+
+        private IEnumerable<ChannelInfoDto> GetDefaults(int count = 3)
+        {
+            var result = new List<ChannelInfoDto>();
+            while (count > 0)
+            {
+                result.Add(ModelGenerator.GenerateChannelInfoDto());
+                count -= 1;
+            }
+
+            return result;
         }
     }
 }
