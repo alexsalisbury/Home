@@ -78,10 +78,5 @@
             message.WriteToSerilog();
             return Task.CompletedTask;
         }
-
-        Task IMockableDiscordService.StartAsync()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
