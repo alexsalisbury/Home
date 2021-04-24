@@ -14,16 +14,11 @@ namespace Shy.Cloud
 
         public static async Task Main(string[] args)
         {
-            var configuration = LoadConfig();
-            SetupLogging(configuration);
-            await Task.Delay(1000);
-
             CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseSerilog(Log.Logger)
                 .ConfigureAppConfiguration(builder =>
                 {
                     builder.AddJsonFile("appsettings.json");
@@ -41,10 +36,8 @@ namespace Shy.Cloud
                         }
                     }
                 })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+                .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>())
+                .UseSerilog();
 
 
         private static IConfiguration LoadConfig()

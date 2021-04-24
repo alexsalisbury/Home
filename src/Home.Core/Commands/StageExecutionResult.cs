@@ -20,7 +20,8 @@
     public record StageExecutionResult
     {
         public bool Success { get; init; }
-        public bool IsComplete { get; init; }
+        public bool IsStageComplete { get; init; }
+        public bool IsCommandComplete { get; init; }
         public int NewStage { get; init; }
         public int RetriesRemaining { get; init; }
         public DateTimeOffset CreatedAt { get; init; }
@@ -33,15 +34,20 @@
             return this with { StartedAt = DateTimeOffset.UtcNow};
         }
 
-        public StageExecutionResult Retry()
+        public StageExecutionResult Retry(DateTimeOffset start)
         {
-            return this with { StartedAt = null, CompletedAt = null, RetriesRemaining = this.RetriesRemaining - 1 };
+            if (RetriesRemaining > 0)
+            {
+                DateTimeOffset? waitUntil = DateTimeOffset.UtcNow.AddMinutes(1);
+                return this with { StartedAt = StartedAt ?? start, CompletedAt = null, RetriesRemaining = this.RetriesRemaining - 1, WaitUntil = waitUntil };
+            }
+
+            return MarkStageComplete(start, false);
         }
 
-        public StageExecutionResult MarkComplete(bool success)
+        public StageExecutionResult MarkStageComplete(DateTimeOffset start, bool success, bool commandComplete = false)
         {
-            DateTimeOffset? waitUntil = success ? null : DateTimeOffset.UtcNow.AddMinutes(1);
-            return this with { IsComplete = true, CompletedAt = DateTimeOffset.UtcNow, Success = success, WaitUntil = waitUntil };
+            return this with { IsStageComplete = true, IsCommandComplete = commandComplete, StartedAt = StartedAt ?? start, CompletedAt = DateTimeOffset.UtcNow, Success = success};
         }
     }
 
