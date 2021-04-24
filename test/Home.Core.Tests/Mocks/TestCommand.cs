@@ -7,23 +7,32 @@
     public record TestCommand : HomeCommand
     {
         public bool FailNext { get; set; }
+        public bool RetryAll { get; set; }
+        public bool RetryNext { get; set; }
         public bool CompleteNext { get; set; }
 
-        private int maxRetries = 3;
-        private int retries;
+        private StageExecutionResult status;
 
         public TestCommand() : base("", 0)
         {
             Identifier = Guid.NewGuid();
-            Stage = 0;
-            retries = 3;
+            status = DefaultResult with
+            {
+                CreatedAt = DateTime.UtcNow,
+                RetriesRemaining = 3
+            };
         }
 
         public TestCommand(StageExecutionResult previous) : base("", 0)
         {
             Identifier = Guid.NewGuid();
+            status = DefaultResult with
+            {
+                CreatedAt = DateTime.UtcNow,
+                RetriesRemaining = previous.RetriesRemaining
+            };
+
             Stage = previous.NewStage;
-            retries = previous.RetriesRemaining;
         }
 
         protected override async Task<StageExecutionResult> ExecuteStageAsync()
@@ -31,24 +40,23 @@
             var start = DateTimeOffset.UtcNow;
             bool success = true;
 
-            if (FailNext)
+            if (RetryAll || RetryNext)
             {
-                success = false;
-                FailNext = false;
+                RetryNext = false;
+                status = status.Retry(start);
             }
             else
             {
-                await Task.Delay(1);
+                if (FailNext)
+                {
+                    success = false;
+                    FailNext = false;
+                }
+
+                status = status.MarkStageComplete(start, success, CompleteNext);
             }
 
-            return DefaultResult with
-            {
-                CreatedAt = start,
-                IsComplete = CompleteNext,
-                RetriesRemaining = success ? maxRetries : retries-1,
-                Success = success,
-                CompletedAt = CompleteNext ? DateTimeOffset.UtcNow : null,
-            };
+            return status;
         }
     }
 }

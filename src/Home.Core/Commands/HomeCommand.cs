@@ -8,7 +8,8 @@
     {
         protected static StageExecutionResult DefaultResult = new StageExecutionResult()
         {
-            IsComplete = false,
+            IsCommandComplete = false,
+            IsStageComplete = false,
         };
 
         /// <summary>
@@ -33,7 +34,7 @@
 
             Log.Information("{command} executed stage {stage} with result {result}", Command, Stage, result);
 
-            if (result.IsComplete)
+            if (result.IsCommandComplete)
             {
                 Log.Information("{command} complete.", Command);
             }
