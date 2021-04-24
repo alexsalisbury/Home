@@ -46,7 +46,7 @@
 
             //TODO: Different channel subtypes may have additional config/state to load from ShyCloud. Do that here.
 
-            //this.settings = settings;
+            this.settings = settings;
             //if (settings?.Fish != null)
             //{
             //    this.Fish = new GoldfishStatus(settings.Fish);
