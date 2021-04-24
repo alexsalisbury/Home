@@ -18,20 +18,26 @@
 
         protected async override Task<StageExecutionResult> ExecuteStageAsync()
         {
-            bool result = false;
             try
             {
-                if (Stage == 1)
+                StageExecutionResult result = Stage switch
                 {
-                   //result = await ExecuteStageAsync();
-                }
+                    1 => await ArchiveFolderAsync(),
+                    int => DefaultResult
+                };
+
+                return result;
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Issue in {command} for {codeword}", this.Command, this.ServerCodeword);
             }
 
-            //return result;
+            return DefaultResult;
+        }
+
+        private async Task<StageExecutionResult> ArchiveFolderAsync()
+        {
             return DefaultResult;
         }
     }

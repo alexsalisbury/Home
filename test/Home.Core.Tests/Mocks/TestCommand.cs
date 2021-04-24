@@ -11,28 +11,12 @@
         public bool RetryNext { get; set; }
         public bool CompleteNext { get; set; }
 
-        private StageExecutionResult status;
-
         public TestCommand() : base("", 0)
         {
-            Identifier = Guid.NewGuid();
-            status = DefaultResult with
-            {
-                CreatedAt = DateTime.UtcNow,
-                RetriesRemaining = 3
-            };
         }
 
-        public TestCommand(StageExecutionResult previous) : base("", 0)
+        public TestCommand(StageExecutionResult previous) : base("", previous?.NewStage ?? 0, previous)
         {
-            Identifier = Guid.NewGuid();
-            status = DefaultResult with
-            {
-                CreatedAt = DateTime.UtcNow,
-                RetriesRemaining = previous.RetriesRemaining
-            };
-
-            Stage = previous.NewStage;
         }
 
         protected override async Task<StageExecutionResult> ExecuteStageAsync()

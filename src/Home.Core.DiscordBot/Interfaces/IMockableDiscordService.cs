@@ -5,6 +5,5 @@
 
     public interface IMockableDiscordService : IDiscordService
     {
-        internal Task StartAsync();
     }
 }

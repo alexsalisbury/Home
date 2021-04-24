@@ -8,7 +8,7 @@ namespace Shy.Cloud
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public class Program
+    public static class Program
     {
         private static string envName;
 
