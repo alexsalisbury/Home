@@ -20,7 +20,9 @@
         {
             CancellationTokenSource cts = new CancellationTokenSource();
             TestWorker tw = new TestWorker();
-            await tw.ExecuteWorkerAsync(cts.Token);
+            await tw.StartAsync(cts.Token);
+            await Task.Delay(1);
+            await tw.StopAsync(cts.Token);
         }
 
         [Fact]
@@ -28,8 +30,9 @@
         {
             CancellationTokenSource cts = new CancellationTokenSource();
             TestWorker tw = new TestWorker();
+            await tw.StartAsync(cts.Token);
             cts.Cancel();
-            await tw.ExecuteWorkerAsync(cts.Token);
+            await tw.StopAsync(cts.Token);
         }
     }
 }
