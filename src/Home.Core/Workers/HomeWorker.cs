@@ -23,6 +23,7 @@
             {
                 if (nextRun < DateTime.UtcNow)
                 {
+                    await ExecuteSingle(stoppingToken);
                     nextRun = DateTime.UtcNow.Add(tock);
                 }
 
