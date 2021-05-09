@@ -27,5 +27,17 @@
 
             await scc?.UploadChannelAsync(null);
         }
+
+        [Fact]
+        public async Task UploadChannelErrorTest()
+        {
+            var (settings, mts, handler) = GetDefaultParams();
+            var scc = new ShyCloudClient(settings, mts, handler);
+
+            HttpResponseMessage response = MakeInternalErrorResponse();
+            handler.SetExpectedResponse(response);
+
+            Assert.ThrowsAnyAsync<Exception>(() => scc?.UploadChannelAsync(null));
+        }
     }
 }

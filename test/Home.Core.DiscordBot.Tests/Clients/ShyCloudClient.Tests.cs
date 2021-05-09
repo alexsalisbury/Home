@@ -53,6 +53,15 @@
             };
         }
 
+        private static HttpResponseMessage MakeInternalErrorResponse()
+        {
+            return new HttpResponseMessage()
+            {
+                Content = new StringContent("Mocked exception."),
+                StatusCode = HttpStatusCode.InternalServerError
+            };
+        }
+
         private static HttpResponseMessage MakeContentResponse(HttpStatusCode code, string jsonContent)
         {
             return new HttpResponseMessage()

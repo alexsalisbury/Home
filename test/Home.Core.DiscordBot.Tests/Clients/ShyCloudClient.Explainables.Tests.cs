@@ -12,6 +12,7 @@
     using Home.Core.Interfaces.Models;
     using Home.Core.Models.Settings;
     using Home.Core.Tests.Mocks;
+    using System;
 
     public partial class ShyCloudClient_Tests
     {
@@ -90,6 +91,17 @@
             var conjson = await response.Content.ReadAsStringAsync();
             var content = JsonConvert.DeserializeObject<List<ExplainableDto>>(conjson);
             Assert.Equal(5, content.Count);
+        }
+        [Fact]
+        public async Task FetchExplainablesInternalErrorTest()
+        {
+            var (settings, mts, handler) = GetDefaultParams();
+            var scc = new ShyCloudClient(settings, mts, handler);
+
+            HttpResponseMessage response = MakeInternalErrorResponse();
+            handler.SetExpectedResponse(response);
+
+            Assert.ThrowsAnyAsync<Exception>(() => scc?.FetchExplainablesAsync());
         }
 
         [Theory]
