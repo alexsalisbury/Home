@@ -35,7 +35,7 @@
         {
             var settings = new AzureSettings()
             {
-                ShyCloudEndpoint = string.Empty
+                ShyCloudEndpoint = "https://localhost/",
             };
 
             var mts = new MockTokenService();

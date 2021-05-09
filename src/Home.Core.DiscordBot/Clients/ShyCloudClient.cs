@@ -50,8 +50,8 @@
 
         public async Task UploadChannelAsync(IChannelInfo dto)
         {
-            var url = settings.ShyCloudEndpoint + "channel";
-            using (HttpClient client = HttpClientFactory.Create())
+            var url = (settings.ShyCloudEndpoint) + "channel";
+            using (var client = await GetClientAsync(settings))
             {
                 try
                 {
@@ -61,6 +61,7 @@
                 catch (Exception ex)
                 {
                     Log.Error(ex, "Failed to fetch Explainables");
+                    throw ex;
                 }
             }
         }

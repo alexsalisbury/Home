@@ -37,7 +37,7 @@
             HttpResponseMessage response = MakeInternalErrorResponse();
             handler.SetExpectedResponse(response);
 
-            Assert.ThrowsAnyAsync<Exception>(() => scc?.UploadChannelAsync(null));
+            await Assert.ThrowsAnyAsync<Exception>(() => scc?.UploadChannelAsync(null));
         }
     }
 }

@@ -16,6 +16,7 @@
         {
             this.settings = settings;
             this.tokenService = tokenService;
+            this.handler = handler;
         }
 
         protected async Task<HttpClient> GetClientAsync(IAzureSettings settings)
