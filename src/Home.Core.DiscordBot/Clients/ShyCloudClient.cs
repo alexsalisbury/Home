@@ -26,10 +26,10 @@
         {
         }
 
-        public async Task<IEnumerable<IExplainable>> FetchExplainablesAsync()
+        public async Task<IEnumerable<ExplainableDto>> FetchExplainablesAsync()
         {
             var url = settings.ShyCloudEndpoint + "explain";
-            using (var client = await GetClientAsync(settings))
+            using (var client = await GetClientAsync())
             {
                 try
                 {
@@ -48,10 +48,10 @@
             return new List<ExplainableDto>();
         }
 
-        public async Task UploadChannelAsync(IChannelInfo dto)
+        public async Task UploadChannelAsync(ChannelInfoDto dto)
         {
             var url = (settings.ShyCloudEndpoint) + "channel";
-            using (var client = await GetClientAsync(settings))
+            using (var client = await GetClientAsync())
             {
                 try
                 {

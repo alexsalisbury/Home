@@ -17,6 +17,9 @@
     // Initial effort. 
     // TODO: Implement CommandExecution, CommandExecutionResult, IShyEntity, db tables.
 
+    /// <summary>
+    /// This record is a result of a stage execution.
+    /// </summary>
     public record StageExecutionResult
     {
         public bool Success { get; init; }
@@ -29,11 +32,20 @@
         public DateTimeOffset? CompletedAt { get; init; }
         public DateTimeOffset? WaitUntil { get; init; }
 
+        /// <summary>
+        /// Sets StartedAt
+        /// </summary>
+        /// <returns>updated record.</returns>
         public StageExecutionResult Start()
         {
             return this with { StartedAt = DateTimeOffset.UtcNow};
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="start"></param>
+        /// <returns></returns>
         public StageExecutionResult Retry(DateTimeOffset start)
         {
             if (RetriesRemaining > 0)
