@@ -17,7 +17,7 @@
             this.scopes = settings == null ? new List<string>() : new List<string>() { settings.Scope } ;
         }
 
-        public async Task<string> GetTokenHeader()
+        public async Task<string> GetBearerTokenHeaderAsync()
         {
             var app = GetBuilder();
             var result = await app.AcquireTokenForClient(scopes).ExecuteAsync();

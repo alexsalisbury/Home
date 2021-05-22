@@ -7,7 +7,7 @@
     {
         public string Result { get; set; }
 
-        public async Task<string> GetTokenHeader()
+        public async Task<string> GetBearerTokenHeaderAsync()
         {
             await Task.Delay(1);
             return Result;

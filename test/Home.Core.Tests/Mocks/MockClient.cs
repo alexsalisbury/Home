@@ -20,12 +20,12 @@
 
         public async Task<HttpClient> WrappedGetClientAsync()
         {
-            return await this.GetClientAsync(null);
+            return await this.GetClientAsync();
         }
 
         public async Task<(string, string)> WrappedGetHeaderAsync()
         {
-            return await this.GetHeaderAsync();
+            return await this.GetBearerTokenHeaderAsync();
         }
     }
 }

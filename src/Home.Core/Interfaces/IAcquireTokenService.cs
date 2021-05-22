@@ -4,6 +4,6 @@
 
     public interface IAcquireTokenService
     {
-        abstract Task<string> GetTokenHeader();
+        abstract Task<string> GetBearerTokenHeaderAsync();
     }
 }

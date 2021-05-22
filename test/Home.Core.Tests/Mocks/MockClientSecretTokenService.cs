@@ -18,7 +18,7 @@
 
         public async Task<string> WrapGetTokenHeader()
         {
-            return await this.GetTokenHeader();
+            return await this.GetBearerTokenHeaderAsync();
         }
     }
 }
