@@ -38,7 +38,8 @@
 
         private async Task<StageExecutionResult> ArchiveFolderAsync()
         {
-            return DefaultResult;
+            await Task.Delay(1);
+            return DefaultResult.MarkStageComplete(DateTime.UtcNow, true, true);
         }
     }
 }
