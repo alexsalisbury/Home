@@ -1,8 +1,8 @@
 ﻿namespace Home.Core.Tests
 {
+    using System.Threading.Tasks;
     using Xunit;
     using Home.Core.Tests.Mocks;
-    using System.Threading.Tasks;
 
     public class HomeCommand_Tests
     {
