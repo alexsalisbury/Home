@@ -49,16 +49,19 @@
 
         public async Task<StageExecutionResult> ExecuteCommandStageAsync()
         {
-            StageExecutionResult result = await ExecuteStageAsync();
-            Log.Information("{command} executed stage {stage} with result {result}", Command, Stage, result);
-
-            if (result.IsCommandComplete)
+            if (status.RetriesRemaining > 0)
             {
-                Log.Information("{command} complete.", Command);
+
+                status = await ExecuteStageAsync();
+                Log.Information("{command} executed stage {stage} with result {result}", Command, Stage, status);
+
+                if (status.IsCommandComplete)
+                {
+                    Log.Information("{command} complete.", Command);
+                }
             }
 
-            return result;
+            return status;
         }
-
     }
 }
