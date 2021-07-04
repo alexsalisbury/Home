@@ -27,7 +27,7 @@ namespace Home.Service
         public Orchestrator(IConfiguration config, ILoggerFactory factory)
         {
             this.configuration = config;
-            this.logger = this.logger ?? factory.CreateLogger<Orchestrator>();
+            this.logger = this.logger ?? factory?.CreateLogger<Orchestrator>();
             this.logger?.LogInformation("Orchestrator:Ctor");
             this.factory = factory;
         }
@@ -42,9 +42,9 @@ namespace Home.Service
                 Debugger.Break();
             }
 
-            var d = new DiscordAdminWorker(0, factory.CreateLogger<DiscordAdminWorker>());
-            DiscordAdminWorker.ShyBotSettings = configuration.GetSection("ShyBot").Get<BotSettings>();
-            workers.Add(d);
+            var d = new DiscordAdminWorker(0, factory?.CreateLogger<DiscordAdminWorker>());
+            DiscordAdminWorker.ShyBotSettings = configuration?.GetSection("ShyBot")?.Get<BotSettings>();
+            workers?.Add(d);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

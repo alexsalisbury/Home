@@ -3,6 +3,7 @@ namespace Home.Service
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -15,10 +16,9 @@ namespace Home.Service
     using Home.Core.DiscordBot.Services;
     using Home.Core.DiscordBot.Interfaces.Services;
 
+    [ExcludeFromCodeCoverage]
     public class Program
     {
-        private static string envName;
-
         public static async Task Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();

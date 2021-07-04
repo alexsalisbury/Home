@@ -17,7 +17,7 @@
         public static BotSettings ShyBotSettings { get; internal set; }
         private IMockableDiscordService DiscordManager;
 
-        internal DiscordAdminWorker(int idx, ILogger<DiscordAdminWorker> logger) : base(nameof(DiscordAdminWorker), idx, logger)
+        public DiscordAdminWorker(int idx, ILogger<DiscordAdminWorker> logger) : base(nameof(DiscordAdminWorker), idx, logger)
         {
         }
 

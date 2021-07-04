@@ -27,9 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Home.Core.Tests", "test\Hom
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Home.Core.Windows", "src\Home.Core.Windows\Home.Core.Windows.csproj", "{BA0D3D54-BD83-41A9-8DF7-64A613AEA066}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Home.Core.DiscordBot.Tests", "test\Home.Core.DiscordBot.Tests\Home.Core.DiscordBot.Tests.csproj", "{44937945-271F-4FA9-AF67-2642E7D363F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Home.Core.DiscordBot.Tests", "test\Home.Core.DiscordBot.Tests\Home.Core.DiscordBot.Tests.csproj", "{44937945-271F-4FA9-AF67-2642E7D363F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Home.Test.Core", "test\Home.Test.Core\Home.Test.Core.csproj", "{CF10DCA9-CA17-4D7F-9109-2B9049315146}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Home.Test.Core", "test\Home.Test.Core\Home.Test.Core.csproj", "{CF10DCA9-CA17-4D7F-9109-2B9049315146}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Home.Service.Tests", "test\Home.Service.Tests\Home.Service.Tests.csproj", "{D215680D-61AB-4551-B7C7-ED24BB6EBE7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -103,6 +105,14 @@ Global
 		{CF10DCA9-CA17-4D7F-9109-2B9049315146}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CF10DCA9-CA17-4D7F-9109-2B9049315146}.Release|x64.ActiveCfg = Release|Any CPU
 		{CF10DCA9-CA17-4D7F-9109-2B9049315146}.Release|x64.Build.0 = Release|Any CPU
+		{D215680D-61AB-4551-B7C7-ED24BB6EBE7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D215680D-61AB-4551-B7C7-ED24BB6EBE7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D215680D-61AB-4551-B7C7-ED24BB6EBE7A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D215680D-61AB-4551-B7C7-ED24BB6EBE7A}.Debug|x64.Build.0 = Debug|Any CPU
+		{D215680D-61AB-4551-B7C7-ED24BB6EBE7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D215680D-61AB-4551-B7C7-ED24BB6EBE7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D215680D-61AB-4551-B7C7-ED24BB6EBE7A}.Release|x64.ActiveCfg = Release|Any CPU
+		{D215680D-61AB-4551-B7C7-ED24BB6EBE7A}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,31 +8,20 @@
 
     public class HomeWorker_Tests
     {
-        //[Fact]
-        //public void TestHomeWorker()
-        //{
-        //    TestWorker tw = new TestWorker();
-        //    Assert.NotNull(tw);
-        //}
+        [Fact]
+        public void HomeWorkerCtor()
+        {
+            TestWorker tw = new TestWorker(0, null);
+            Assert.NotNull(tw);
+        }
 
-        //[Fact]
-        //public async Task ExecHomeWorker()
-        //{
-        //    CancellationTokenSource cts = new CancellationTokenSource();
-        //    TestWorker tw = new TestWorker();
-        //    await tw.StartAsync(cts.Token);
-        //    await Task.Delay(1);
-        //    await tw.StopAsync(cts.Token);
-        //}
-
-        //[Fact]
-        //public async Task CancelHomeWorker()
-        //{
-        //    CancellationTokenSource cts = new CancellationTokenSource();
-        //    TestWorker tw = new TestWorker();
-        //    await tw.StartAsync(cts.Token);
-        //    cts.Cancel();
-        //    await tw.StopAsync(cts.Token);
-        //}
+        [Fact]
+        public async Task HomeWorkerExecuteWorker()
+        {
+            CancellationTokenSource cts = new CancellationTokenSource();
+            var tw = new TestWorker(0, null);
+            await tw?.ExecuteDirectAsync(cts.Token);
+            Assert.True(tw?.Executed ?? false);
+        }
     }
 }
